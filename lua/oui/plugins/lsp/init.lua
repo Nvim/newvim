@@ -76,6 +76,11 @@ return {
 			lsp_zero.on_attach(function(client, bufnr)
 				-- lsp_zero.default_keymaps({ buffer = bufnr })
 
+				-- local navic = require("nvim-navic")
+				-- if client.server_capabilities.documentSymbolProvider then
+				-- 	navic.attach(client, bufnr)
+				-- end
+
 				local opts = { buffer = bufnr, remap = false }
 				local set = vim.keymap.set
 
@@ -120,6 +125,13 @@ return {
 				set("n", "<leader>li", "<cmd>Telescope lsp_implementations<cr>", { desc = "LSP implementation" })
 				set("n", "<leader>le", "<cmd>Telescope diagnostics<cr>", { desc = "LSP diagnostics" })
 			end)
+
+			lsp_zero.set_sign_icons({
+				error = "✘",
+				warn = "▲",
+				hint = "⚑",
+				info = "»",
+			})
 
 			require("mason-lspconfig").setup({
 				ensure_installed = {
