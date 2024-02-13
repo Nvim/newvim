@@ -1,6 +1,52 @@
 -- TODO: jdtls (https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/setup-with-nvim-jdtls.md)
-return {
-	-- MASON:
+
+local set_my_mappings = function(bufnr)
+	local opts = { buffer = bufnr, remap = false }
+	local set = vim.keymap.set
+
+	-- TODO: make which-key work on these
+	-- set("n", "<leader>ld", function()
+	-- 	vim.lsp.buf.definition()
+	-- end, opts, { desc = "LSP definition" })
+	set("n", "<leader>lD", function()
+		vim.lsp.buf.declaration()
+	end, opts, { desc = "LSP definition" })
+	set("n", "<leader>lh", function()
+		vim.lsp.buf.hover()
+	end, opts, { desc = "LSP hover info" })
+	set("n", "<leader>lf", function()
+		vim.diagnostic.open_float()
+	end, opts, { desc = "LSP diagnostic" })
+	set("n", "<leader>lj", function()
+		vim.diagnostic.goto_next()
+	end, opts, { desc = "LSP next diagnostic" })
+	set("n", "<leader>lk", function()
+		vim.diagnostic.goto_prev()
+	end, opts, { desc = "LSP prev diagnostic" })
+	set("n", "<leader>la", function()
+		vim.lsp.buf.code_action()
+	end, opts, { desc = "LSP code action" })
+	set("n", "<leader>lR", function()
+		vim.lsp.buf.rename()
+	end, opts, { desc = "LSP rename" })
+	set("n", "<leader>ls", function()
+		vim.lsp.buf.signature_help()
+	end, opts, { desc = "LSP signature help" })
+	-- set("n", "<leader>vws", function()
+	-- 	vim.lsp.buf.workspace_symbol()
+	-- end, opts)
+	-- vim.keymap.set("n", "<leader>vrr", function()
+	-- 	vim.lsp.buf.references()
+	-- end, opts)
+
+	set("n", "<leader>lr", "<cmd>Telescope lsp_references<cr>", { desc = "LSP references" })
+	set("n", "<leader>lS", "<cmd>Telescope lsp_workspace_symbols<cr>", { desc = "LSP symbols" })
+	set("n", "<leader>ld", "<cmd>Telescope lsp_definitions<cr>", { desc = "LSP definition" })
+	set("n", "<leader>li", "<cmd>Telescope lsp_implementations<cr>", { desc = "LSP implementation" })
+	set("n", "<leader>le", "<cmd>Telescope diagnostics<cr>", { desc = "LSP diagnostics" })
+end
+
+local M = {
 	{
 		"williamboman/mason.nvim",
 		lazy = false,
@@ -74,56 +120,7 @@ return {
 			lsp_zero.extend_lspconfig()
 
 			lsp_zero.on_attach(function(client, bufnr)
-				-- lsp_zero.default_keymaps({ buffer = bufnr })
-
-				-- local navic = require("nvim-navic")
-				-- if client.server_capabilities.documentSymbolProvider then
-				-- 	navic.attach(client, bufnr)
-				-- end
-
-				local opts = { buffer = bufnr, remap = false }
-				local set = vim.keymap.set
-
-				-- TODO: make which-key work on these
-				-- set("n", "<leader>ld", function()
-				-- 	vim.lsp.buf.definition()
-				-- end, opts, { desc = "LSP definition" })
-				set("n", "<leader>lD", function()
-					vim.lsp.buf.declaration()
-				end, opts, { desc = "LSP definition" })
-				set("n", "<leader>lh", function()
-					vim.lsp.buf.hover()
-				end, opts, { desc = "LSP hover info" })
-				set("n", "<leader>lf", function()
-					vim.diagnostic.open_float()
-				end, opts, { desc = "LSP diagnostic" })
-				set("n", "<leader>lj", function()
-					vim.diagnostic.goto_next()
-				end, opts, { desc = "LSP next diagnostic" })
-				set("n", "<leader>lk", function()
-					vim.diagnostic.goto_prev()
-				end, opts, { desc = "LSP prev diagnostic" })
-				set("n", "<leader>la", function()
-					vim.lsp.buf.code_action()
-				end, opts, { desc = "LSP code action" })
-				set("n", "<leader>lR", function()
-					vim.lsp.buf.rename()
-				end, opts, { desc = "LSP rename" })
-				set("n", "<leader>ls", function()
-					vim.lsp.buf.signature_help()
-				end, opts, { desc = "LSP signature help" })
-				-- set("n", "<leader>vws", function()
-				-- 	vim.lsp.buf.workspace_symbol()
-				-- end, opts)
-				-- vim.keymap.set("n", "<leader>vrr", function()
-				-- 	vim.lsp.buf.references()
-				-- end, opts)
-
-				set("n", "<leader>lr", "<cmd>Telescope lsp_references<cr>", { desc = "LSP references" })
-				set("n", "<leader>lS", "<cmd>Telescope lsp_workspace_symbols<cr>", { desc = "LSP symbols" })
-				set("n", "<leader>ld", "<cmd>Telescope lsp_definitions<cr>", { desc = "LSP definition" })
-				set("n", "<leader>li", "<cmd>Telescope lsp_implementations<cr>", { desc = "LSP implementation" })
-				set("n", "<leader>le", "<cmd>Telescope diagnostics<cr>", { desc = "LSP diagnostics" })
+				set_my_mappings(bufnr)
 			end)
 
 			lsp_zero.set_sign_icons({
@@ -151,23 +148,41 @@ return {
 				},
 				handlers = {
 					lsp_zero.default_setup,
-
-					-- To exclude a language from the auto setup:
-					-- lua_ls = lsp_zero.noop,
+					lsp_zero.set_server_config({
+						capabilities = {
+							textDocument = {
+								foldingRange = {
+									dynamicRegistration = false,
+									lineFoldingOnly = true,
+								},
+							},
+						},
+					}),
+					lsp_zero.setup_servers({
+						"bashls",
+						"jdtls",
+						"intelephense",
+						"html",
+						"cssls",
+						"volar",
+						"emmet_language_server",
+						"eslint",
+						"lua_ls",
+						"pyright",
+						"texlab",
+					}),
 
 					-- setup lua for neovim (lspzero provided)
 					lua_ls = function()
 						local lua_opts = lsp_zero.nvim_lua_ls()
 						require("lspconfig").lua_ls.setup(lua_opts)
 					end,
-
 					-- fix illuminate + null_ls conflict TODO: try without it
 					clangd = function()
 						require("lspconfig").clangd.setup({
 							cmd = { "clangd", "--offset-encoding=utf-16" },
 						})
 					end,
-
 					tsserver = function()
 						require("lspconfig").tsserver.setup({
 							init_options = {
@@ -182,3 +197,4 @@ return {
 		end,
 	},
 }
+return M

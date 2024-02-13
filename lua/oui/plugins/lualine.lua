@@ -4,25 +4,21 @@ return {
 	-- TODO: theme it
 	config = function()
 		local lualine = require("lualine")
-		local lazy_status = require("lazy.status") -- to configure lazy pending updates count
-
 		-- configure lualine with modified theme
 		lualine.setup({
-			-- options = {
-			-- 	-- theme = gruvbox,
-			-- },
-			-- sections = {
-			--   lualine_x = {
-			--     {
-			--       lazy_status.updates,
-			--       cond = lazy_status.has_updates,
-			--       color = { fg = "#ff9e64" },
-			--     },
-			--     { "encoding" },
-			--     { "fileformat" },
-			--     { "filetype" },
-			--   },
-			-- },
+			options = {
+				section_separators = { left = "", right = "" },
+
+				-- theme = "gruvbox",
+				sections = {
+					lualine_a = { "mode" },
+					lualine_b = { "branch", "diff", "diagnostics" },
+					lualine_c = { "" },
+					lualine_x = { "" },
+					lualine_y = { "diagnostics", "filetype" },
+					lualine_z = { "filename" },
+				},
+			},
 		})
 	end,
 }
