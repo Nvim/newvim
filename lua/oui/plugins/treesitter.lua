@@ -30,9 +30,31 @@ return {
 					keymaps = {
 						init_selection = "<C-space>",
 						node_incremental = "<C-space>",
-						scope_incremental = false,
+						scope_incremental = "<M-space>",
 						node_decremental = "<bs>",
 					},
+
+					textobjects = {
+						select = {
+							enable = true,
+							lookahead = true,
+
+							keymaps = {
+								["af"] = { query = "@function.outer", desc = "Outer function" },
+								["if"] = { query = "@function.inner", desc = "Inner function" },
+								["ac"] = { query = "@class.outer", desc = "Outer class" },
+								["ic"] = { query = "@class.inner", desc = "Inner class" },
+								["as"] = { query = "@scope", query_group = "locals", desc = "Scope" },
+							},
+							selection_modes = {
+								["@parameter.outer"] = "v", -- charwise
+								["@function.outer"] = "V", -- linewise
+								["@class.outer"] = "<c-v>", -- blockwise
+							},
+							include_surrounding_whitespace = true,
+						},
+					},
+
 					-- ensure these language parsers are installed
 					ensure_installed = {
 						"c",

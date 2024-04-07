@@ -56,6 +56,7 @@ return {
 			---have the same colour for both values in the switch.
 			float_style = "bright",
 		})
-		vim.cmd([[colorscheme everforest]])
+
+		vim.cmd("colorscheme everforest")
 	end,
 }

@@ -54,13 +54,13 @@ local M = {
     opts = {
       ensure_installed = {
         -- lint
-        "eslint_d", -- linter
-        "mypy",     --linter(static type check)
-        "ruff",     --fast linting
+        -- "eslint_d", -- linter
+        "mypy", --linter(static type check)
+        "ruff", --fast linting
 
         -- format
         "prettier",        -- formatter
-        "clang-format",    --formatter
+        -- "clang-format", --formatter
         "blade-formatter", --formatter
         "pint",            --formatter
         "stylua",          -- formatter
@@ -130,8 +130,7 @@ local M = {
         info = "»",
       })
 
-
-      require 'lspconfig'.glsl_analyzer.setup {}
+      require("lspconfig").glsl_analyzer.setup({})
       require("mason-lspconfig").setup({
         ensure_installed = {
           "bashls",
@@ -146,6 +145,7 @@ local M = {
           "eslint",
           "lua_ls",
           "pyright",
+          -- "glsl_analyzer",
           "texlab",
         },
         handlers = {
@@ -185,18 +185,26 @@ local M = {
               cmd = { "clangd", "--offset-encoding=utf-16" },
             })
           end,
-          tsserver = function()
-            require("lspconfig").tsserver.setup({
-              init_options = {
-                preferences = {
-                  disableSuggestions = true,
-                },
-              },
-            })
-          end,
+          -- tsserver = function()
+          -- 	require("lspconfig").tsserver.setup({
+          -- 		init_options = {
+          -- 			preferences = {
+          -- 				-- disableSuggestions = true,
+          -- 				disableSuggestions = false,
+          -- 			},
+          -- 		},
+          -- 	})
+          -- end,
         },
       })
     end,
   },
+
+  -- tsserver plugin, better than normal lsp
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+  }
 }
 return M
