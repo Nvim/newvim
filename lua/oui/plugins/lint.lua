@@ -12,10 +12,10 @@ return {
 
 		-- no need to lint c/cpp as clangd already embeds clang-tidy
 		lint.linters_by_ft = {
-			-- javascript = { "eslint_d" },
-			-- typescript = { "eslint_d" },
-			-- javascriptreact = { "eslint_d" },
-			-- typescriptreact = { "eslint_d" },
+			javascript = { "eslint_d" },
+			typescript = { "eslint_d" },
+			javascriptreact = { "eslint_d" },
+			typescriptreact = { "eslint_d" },
 			python = { "mypy", "ruff" },
 		}
 
