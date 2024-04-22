@@ -6,6 +6,7 @@ local codeium = {
 		local opts = { expr = true, silent = true }
 
 		vim.g.codeium_disable_bindings = 1 --disables defaults
+		vim.g.codeium_enabled = false
 
 		s("i", "<S-Tab>", function()
 			return vim.fn["codeium#Accept"]()
@@ -20,10 +21,10 @@ local codeium = {
 			return vim.fn["codeium#Clear"]()
 		end, opts)
 
-		s("n", "<leader><c-x>", function()
+		s("n", "<leader><cx>", function()
 			vim.g.codeium_enabled = false
 		end, opts)
-		s("n", "<leader><c-e>", function()
+		s("n", "<leader><ce>", function()
 			vim.g.codeium_enabled = true
 		end, opts)
 	end,
