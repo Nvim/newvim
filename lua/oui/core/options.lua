@@ -1,5 +1,9 @@
 local opt = vim.opt
 
+-- for markdown:
+opt.conceallevel = 2
+--vim.g.filetype.plugin.on = 1
+
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
 opt.number = true -- shows absolute line number on cursor line (when relative number is on)

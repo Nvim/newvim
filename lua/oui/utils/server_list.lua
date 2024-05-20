@@ -16,6 +16,8 @@ local ensure_installed = {
 		"glsl_analyzer",
 		"nil_ls",
 		"texlab",
+		"ltex",
+		"marksman",
 	},
 
 	others = {

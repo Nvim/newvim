@@ -18,6 +18,7 @@ return {
 				auto_install = true,
 				highlight = {
 					enable = true,
+					disable = { "latex" },
 				},
 				-- enable indentation
 				indent = { enable = true },
@@ -79,6 +80,7 @@ return {
 						"markdown",
 						"markdown_inline",
 						"latex",
+						"bibtex",
 					},
 				},
 			})
