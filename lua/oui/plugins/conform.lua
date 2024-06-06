@@ -24,6 +24,7 @@ return {
 					yaml = { "prettier" },
 					yml = { "prettier" },
 					markdown = { "prettier" },
+					tex = { "latexindent" },
 					css = { "prettier" },
 					javascript = { "prettier" },
 					javascriptreact = { "prettier" },

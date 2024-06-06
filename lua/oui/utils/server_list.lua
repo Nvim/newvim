@@ -10,6 +10,8 @@ local ensure_installed = {
 		"volar",
 		"emmet_language_server",
 		"tsserver",
+		"vtsls",
+		"tailwindcss",
 		-- "eslint",
 		"lua_ls",
 		"pyright",

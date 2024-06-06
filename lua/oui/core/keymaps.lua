@@ -32,8 +32,8 @@ keymap.set("n", "<C-j>", "<C-w>j", { desc = "Window down" })
 keymap.set("n", "<C-k>", "<C-w>k", { desc = "Window up" })
 
 -- big dinguerie: bouge les lignes selectionnees avec shift+j et k
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+-- vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+-- vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 --ctrl+d et u pour half page jumps
 -- vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Page down" })

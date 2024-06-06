@@ -146,7 +146,7 @@ local M = {
 					}),
 					lsp_zero.setup_servers(
 						{ server_list.lsps },
-						{ exclude = { "lua_ls", "clangd", "tsserver", "ltex" } }
+						{ exclude = { "lua_ls", "clangd", "tsserver", "ltex", "vtsls" } }
 					),
 
 					-- setup lua for neovim (lspzero provided)
@@ -181,27 +181,130 @@ local M = {
 						})
 					end,
 					tsserver = lsp_zero.noop,
-					-- tsserver = function()
-					-- 	require("lspconfig").tsserver.setup({
-					-- 		init_options = {
-					-- 			preferences = {
-					-- 				-- disableSuggestions = true,
-					-- 				disableSuggestions = false,
-					-- 			},
-					-- 		},
-					-- 	})
-					-- end,
+
+					vtsls = function()
+						require("lspconfig").vtsls.setup({
+							filetypes = {
+								"javascript",
+								"javascriptreact",
+								"javascript.jsx",
+								"typescript",
+								"typescriptreact",
+								"typescript.tsx",
+								"vue",
+							},
+							settings = {
+								complete_function_calls = true,
+								vtsls = {
+									enableMoveToFileCodeAction = true,
+									autoUseWorkspaceTsdk = true,
+									experimental = {
+										completion = {
+											enableServerSideFuzzyMatch = true,
+										},
+									},
+									globalPlugins = {
+										{
+											name = "@vue/typescript-plugin",
+											location = get_pkg_path(
+												"vue-language-server",
+												"/node_modules/@vue/language-server"
+											),
+											languages = { "vue" },
+											configNamespace = "typescript",
+											enableForWorkspaceTypeScriptVersions = true,
+										},
+									},
+								},
+								typescript = {
+									updateImportsOnFileMove = { enabled = "always" },
+									suggest = {
+										completeFunctionCalls = true,
+									},
+									inlayHints = {
+										enumMemberValues = { enabled = true },
+										functionLikeReturnTypes = { enabled = true },
+										parameterNames = { enabled = "literals" },
+										parameterTypes = { enabled = true },
+										propertyDeclarationTypes = { enabled = true },
+										variableTypes = { enabled = false },
+									},
+								},
+							},
+							keys = {
+								{
+									"gD",
+									function()
+										require("vtsls").commands.goto_source_definition(0)
+									end,
+									desc = "Goto Source Definition",
+								},
+								{
+									"gR",
+									function()
+										require("vtsls").commands.file_references(0)
+									end,
+									desc = "File References",
+								},
+								{
+									"<leader>co",
+									function()
+										require("vtsls").commands.organize_imports(0)
+									end,
+									desc = "Organize Imports",
+								},
+								{
+									"<leader>cM",
+									function()
+										require("vtsls").commands.add_missing_imports(0)
+									end,
+									desc = "Add missing imports",
+								},
+								{
+									"<leader>cu",
+									function()
+										require("vtsls").commands.remove_unused_imports(0)
+									end,
+									desc = "Remove unused imports",
+								},
+								{
+									"<leader>cD",
+									function()
+										require("vtsls").commands.fix_all(0)
+									end,
+									desc = "Fix all diagnostics",
+								},
+								{
+									"<leader>cV",
+									function()
+										require("vtsls").commands.select_ts_version(0)
+									end,
+									desc = "Select TS workspace version",
+								},
+							},
+						})
+					end,
 				},
 			})
 		end,
 	},
 
-	-- tsserver plugin, better than normal lsp
+	-- vtsls, alternative to typescript-tools, shipped by lazyvim
 	{
-		"pmizio/typescript-tools.nvim",
-		ft = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
-		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		"yioneko/nvim-vtsls",
+		lazy = true,
 		opts = {},
+		config = function(_, opts)
+			require("vtsls").config(opts)
+		end,
 	},
+
+	-- tsserver plugin, better than normal lsp
+	-- 	{
+	-- 		"pmizio/typescript-tools.nvim",
+	-- 		ft = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
+	-- 		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+	-- 		opts = {},
+	-- 	},
 }
 return M
