@@ -42,6 +42,7 @@
     in {
       x86_64-linux.default = pkgs.neovim.override {
         configure = {
+          viAlias = true;
           customRC = ''
             lua << EOF
             require("oui").init()
