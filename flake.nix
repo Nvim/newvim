@@ -13,6 +13,7 @@
         # Utils:
         fzf
         xclip
+        tree-sitter
 
         # Language Support:
         yarn
