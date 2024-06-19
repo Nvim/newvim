@@ -2,34 +2,56 @@
   description = "My Neovim config Flake";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs.neovim-nightly-overlay.url =
+    "github:nix-community/neovim-nightly-overlay";
 
-  outputs = inputs @ {
-    self,
-    flake-parts,
-    nixpkgs,
-    ...
-  }:
-    flake-parts.lib.mkFlake {inherit inputs;} {
-      flake = {
-        lib = import ./lib {inherit inputs;};
-      };
+  outputs = inputs@{ self, nixpkgs, neovim-nightly-overlay, ... }: {
+    packages = let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
+      extraPackages = with pkgs; [
+        # Utils:
+        fzf
+        xclip
 
-      systems = [ "x86_64-linux" ];
+        # Language Support:
+        yarn
+        php
+        php83Packages.composer
+        python311
+        python311Packages.pip
 
-      perSystem = {
-        config,
-        self',
-        inputs',
-        pkgs,
-        system,
-        ...
-      }: {
-        formatter = pkgs.alejandra;
+        # LSP:
+        clang-tools # for clangd
+        lua-language-server
+        nixd
+        vscode-langservers-extracted
+        emmet-language-server
+        ruff-lsp
+        nodePackages.volar
+        nodePackages.typescript-language-server
 
-        packages = {
-          default = self.lib.mkVimPlugin {inherit system;};
-          neovim = self.lib.mkNeovim {inherit system;};
+        # Format:
+        nixfmt
+        prettierd
+        stylua
+        isort
+        black
+        shfmt
+      ];
+    in {
+      x86_64-linux.default = pkgs.neovim.override {
+        configure = {
+          customRC = ''
+            lua << EOF
+            require("oui").init()
+            require("oui.lazy")
+            EOF
+          '';
         };
+        extraMakeWrapperArgs =
+          ''--suffix PATH : "${pkgs.lib.strings.makeBinPath extraPackages}"'';
       };
     };
+  };
 }
