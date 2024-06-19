@@ -9,37 +9,36 @@
     packages = let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
-      extraPackages = with pkgs;
-        [
-          # Utils:
-          fzf
-          # xclip
-          #
-          # # Language Support:
-          # yarn
-          # php
-          # php83Packages.composer
-          # python311
-          # python311Packages.pip
-          #
-          # # LSP:
-          # clang-tools # for clangd
-          # lua-language-server
-          # nixd
-          # vscode-langservers-extracted
-          # emmet-language-server
-          # ruff-lsp
-          # nodePackages.volar
-          # nodePackages.typescript-language-server
-          #
-          # # Format:
-          # nixfmt
-          # prettierd
-          # stylua
-          # isort
-          # black
-          # shfmt
-        ];
+      extraPackages = with pkgs; [
+        # Utils:
+        fzf
+        xclip
+
+        # Language Support:
+        yarn
+        php
+        php83Packages.composer
+        python311
+        python311Packages.pip
+
+        # LSP:
+        clang-tools # for clangd
+        lua-language-server
+        nixd
+        vscode-langservers-extracted
+        emmet-language-server
+        ruff-lsp
+        nodePackages.volar
+        nodePackages.typescript-language-server
+
+        # Format:
+        nixfmt
+        prettierd
+        stylua
+        isort
+        black
+        shfmt
+      ];
     in {
       x86_64-linux.default = pkgs.neovim.override {
         configure = {
