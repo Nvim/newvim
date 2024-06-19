@@ -35,7 +35,7 @@
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
-          "neovim-nightly-overlay",
+          "neovim",
           "nixpkgs"
         ]
       },
@@ -56,7 +56,7 @@
     "flake-parts_2": {
       "inputs": {
         "nixpkgs-lib": [
-          "neovim-nightly-overlay",
+          "neovim",
           "hercules-ci-effects",
           "nixpkgs"
         ]
@@ -79,11 +79,11 @@
         "flake-compat": "flake-compat_2",
         "gitignore": "gitignore",
         "nixpkgs": [
-          "neovim-nightly-overlay",
+          "neovim",
           "nixpkgs"
         ],
         "nixpkgs-stable": [
-          "neovim-nightly-overlay",
+          "neovim",
           "nixpkgs"
         ]
       },
@@ -104,7 +104,7 @@
     "gitignore": {
       "inputs": {
         "nixpkgs": [
-          "neovim-nightly-overlay",
+          "neovim",
           "git-hooks",
           "nixpkgs"
         ]
@@ -127,7 +127,7 @@
       "inputs": {
         "flake-parts": "flake-parts_2",
         "nixpkgs": [
-          "neovim-nightly-overlay",
+          "neovim",
           "nixpkgs"
         ]
       },
@@ -145,7 +145,7 @@
         "type": "github"
       }
     },
-    "neovim-nightly-overlay": {
+    "neovim": {
       "inputs": {
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts",
@@ -218,7 +218,7 @@
     },
     "root": {
       "inputs": {
-        "neovim-nightly-overlay": "neovim-nightly-overlay",
+        "neovim": "neovim",
         "nixpkgs": "nixpkgs_2"
       }
     }
