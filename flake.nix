@@ -33,7 +33,7 @@
         nodePackages.typescript-language-server
 
         # Format:
-        nixfmt
+        nixfmt-rfc-style
         prettierd
         stylua
         isort
