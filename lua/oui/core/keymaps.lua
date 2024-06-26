@@ -31,6 +31,13 @@ keymap.set("n", "<C-l>", "<C-w>l", { desc = "Window right" })
 keymap.set("n", "<C-j>", "<C-w>j", { desc = "Window down" })
 keymap.set("n", "<C-k>", "<C-w>k", { desc = "Window up" })
 
+-- find and replace:
+keymap.set("n", "<leader>rr", ":%s/<<C-r><C-w>//g<Left><Left>")
+keymap.set("n", "<right>", ":vertical resize +2<cr>")
+keymap.set("n", "<left>", ":vertical resize -2<cr>")
+keymap.set("n", "<down>", ":resize +2<cr>")
+keymap.set("n", "<up>", ":resize -2<cr>")
+
 -- big dinguerie: bouge les lignes selectionnees avec shift+j et k
 -- vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 -- vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
@@ -46,13 +53,19 @@ keymap.set("i", "<C-l>", "<Right>", { desc = "Move right" })
 keymap.set("i", "<C-k>", "<Up>", { desc = "Move up" })
 
 -- Telescope --
-keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
+keymap.set(
+	"n",
+	"<leader>ff",
+	"<cmd>Telescope frecency workspace=CWD theme=ivy layout_config={height=0.4} path_display={'shorten'}<cr>",
+	{ desc = "Find files" }
+)
 keymap.set("n", "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc = "Find string in buffer" })
 keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
 keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor" })
 keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
 keymap.set("n", "<leader>fr", "<cmd>Telescope registers<cr>", { desc = "Registers" })
 keymap.set("n", "<leader>fm", "<cmd>Telescope marks<cr>", { desc = "Marks" })
+keymap.set("n", "<leader>fn", "<cmd>Telescope man_pages<cr>", { desc = "Marks" })
 keymap.set(
 	"n",
 	"<leader>fa",
