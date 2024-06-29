@@ -68,8 +68,9 @@
             vscode-langservers-extracted
             emmet-language-server
             ruff-lsp
-            nodePackages.volar
+            vscode-extensions.vue.volar
             nodePackages.typescript-language-server
+            bash-language-server
 
             # Format:
             nixfmt-rfc-style
