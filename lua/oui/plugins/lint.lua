@@ -1,5 +1,5 @@
 -- Lintinig
-return {
+local M = {
 	"mfussenegger/nvim-lint",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
@@ -29,3 +29,5 @@ return {
 		})
 	end,
 }
+
+return {}

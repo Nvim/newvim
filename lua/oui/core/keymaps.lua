@@ -56,7 +56,7 @@ keymap.set("i", "<C-k>", "<Up>", { desc = "Move up" })
 keymap.set(
 	"n",
 	"<leader>ff",
-	"<cmd>Telescope frecency workspace=CWD theme=ivy layout_config={height=0.4} path_display={'shorten'}<cr>",
+	"<cmd>Telescope find_files theme=ivy layout_config={height=0.4} path_display={'shorten'}<cr>",
 	{ desc = "Find files" }
 )
 keymap.set("n", "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc = "Find string in buffer" })
