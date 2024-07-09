@@ -14,12 +14,15 @@ function get_pkg_path(pkg, path, opts)
 	path = path or ""
 	local ret = root .. "/packages/" .. pkg .. "/" .. path
 	if opts.warn and not vim.loop.fs_stat(ret) and not require("lazy.core.config").headless() then
-	  print(
-		("Mason package path not found for **%s**:\n- `%s`\nYou may need to force update the package."):format(pkg, path)
-	  )
+		print(
+			("Mason package path not found for **%s**:\n- `%s`\nYou may need to force update the package."):format(
+				pkg,
+				path
+			)
+		)
 	end
 	return ret
-  end
+end
 
 local set_my_mappings = function(bufnr)
 	local opts = { buffer = bufnr, remap = false }
@@ -150,7 +153,7 @@ local M = {
 				info = "»",
 			})
 
-			require("lspconfig").glsl_analyzer.setup({})
+			-- require("lspconfig").glsl_analyzer.setup({})
 			require("mason-lspconfig").setup({
 				ensure_installed = server_list.lsps,
 				handlers = {
