@@ -201,13 +201,27 @@ local M = {
 
     -- clangd: special settings:
     require("lspconfig").clangd.setup({
-      cmd = { "clangd", "--offset-encoding=utf-16" },
+      cmd = {
+        "clangd",
+        "--background-index",
+        "--clang-tidy",
+        "--header-insertion=iwyu",
+        "--completion-style=detailed",
+        "--function-arg-placeholders",
+        "--fallback-style=llvm",
+        "--offset-encoding=utf-16",
+      },
       on_attach = function(_, bufnr)
         set_lspsaga_mappings(bufnr)
         vim.keymap.set("n", "<leader>ls", function()
           vim.cmd("ClangdSwitchSourceHeader")
         end, { buffer = bufnr, remap = false, silent = true, desc = "ClangdSwitchSourceHeader" })
       end,
+    })
+
+    require("lspconfig").cmake.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
     })
 
     -- require("lspconfig").glsl_analyzer.setup({})

@@ -63,6 +63,7 @@
 
             # LSP:
             clang-tools # for clangd
+            cmake-language-server
             lua-language-server
             nixd
             vscode-langservers-extracted
@@ -70,15 +71,25 @@
             ruff-lsp
             vscode-extensions.vue.volar
             nodePackages.typescript-language-server
+            # npm install -g @vtsls/language-server
             bash-language-server
+
+            # Lint:
+            cmake-lint
+            hadolint
+            php83Packages.php-codesniffer # PHPCS
 
             # Format:
             nixfmt-rfc-style
             prettierd
+            cmake-format
             stylua
             isort
             black
             shfmt
+
+            # DAP:
+            vscode-extensions.vadimcn.vscode-lldb
           ];
 
           extraConfig = ''
