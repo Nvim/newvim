@@ -1,5 +1,5 @@
 -- Formatting
-return {
+local M = {
 	{
 		"stevearc/conform.nvim",
 		event = { "BufReadPre", "BufNewFile" },
@@ -30,6 +30,7 @@ return {
 					javascriptreact = { "prettier" },
 					typescript = { "prettier" },
 					typescriptreact = { "prettier" },
+					nix = { "nixfmt" },
 					vue = { "prettier" },
 				},
 
@@ -42,3 +43,5 @@ return {
 		end,
 	},
 }
+
+return {}

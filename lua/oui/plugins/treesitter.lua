@@ -4,8 +4,9 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		build = ":TSUpdate",
 		dependencies = {
-			"nvim-treesitter/nvim-treesitter-textobjects",
-			"windwp/nvim-ts-autotag",
+			{ "nvim-treesitter/nvim-treesitter-textobjects", event = "InsertEnter" },
+			{ "JoosepAlviste/nvim-ts-context-commentstring" },
+			{ "windwp/nvim-ts-autotag" },
 		},
 
 		config = function()
@@ -21,7 +22,7 @@ return {
 					disable = { "latex" },
 				},
 				-- enable indentation
-				indent = { enable = true },
+				indent = { enable = true, disable = { "python" } },
 				-- enable autotagging (w/ nvim-ts-autotag plugin)
 				autotag = {
 					enable = true,
@@ -36,6 +37,11 @@ return {
 					},
 
 					textobjects = {
+						swap = {
+							enable = true,
+							swap_next = { ["<leader>a"] = "@parameter.inner" },
+							swap_previous = { ["<leader>A"] = "@parameter.inner" },
+						},
 						select = {
 							enable = true,
 							lookahead = true,

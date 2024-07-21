@@ -55,9 +55,9 @@ return {
 	lazy = false,
 	priority = 1000,
 	config = function()
-		vim.g.gruvbox_baby_use_original_palette = 1 -- OG gruvbox
+		vim.g.gruvbox_baby_use_original_palette = 0 -- OG gruvbox
 		vim.g.gruvbox_baby_background_color = "dark" -- sets background colors to None
-		vim.g.gruvbox_baby_transparent_mode = 1 -- sets background colors to None
+		vim.g.gruvbox_baby_transparent_mode = 0 -- sets background colors to None
 		vim.g.gruvbox_baby_function_style = "NONE"
 		vim.g.gruvbox_baby_keyword_style = "italic"
 		vim.g.gruvbox_baby_comment_style = "italic"

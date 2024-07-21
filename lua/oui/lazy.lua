@@ -22,4 +22,5 @@ require("lazy").setup({ { import = "oui.plugins" }, { import = "oui.plugins.lsp"
 	change_detection = {
 		notify = false,
 	},
+	-- lockfile = os.getenv("HOME") .. "/nix/lazy-lock.json",
 })

@@ -1,5 +1,34 @@
 -- TODO: jdtls (https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/setup-with-nvim-jdtls.md)
 
+local set_lsp_telescope_mappings = function(bufnr)
+  local opts = { buffer = bufnr, remap = false, silent = true }
+  local set = vim.keymap.set
+  set(
+    "n",
+    "<leader>lr",
+    "<cmd>Telescope lsp_references<cr>",
+    { buffer = bufnr, remap = false, silent = true, desc = "LSP references" }
+  )
+  set(
+    "n",
+    "<leader>lS",
+    "<cmd>Telescope lsp_workspace_symbols<cr>",
+    { buffer = bufnr, remap = false, silent = true, desc = "LSP symbols" }
+  )
+  set(
+    "n",
+    "<leader>li",
+    "<cmd>Telescope lsp_implementations<cr>",
+    { buffer = bufnr, remap = false, silent = true, desc = "LSP implementation" }
+  )
+  set(
+    "n",
+    "<leader>le",
+    "<cmd>Telescope diagnostics<cr>",
+    { buffer = bufnr, remap = false, silent = true, desc = "LSP diagnostics" }
+  )
+end
+
 --- Gets a path to a package in the Mason registry.
 --- Prefer this to `get_package`, since the package might not always be
 --- available yet and trigger errors.
@@ -24,66 +53,82 @@ function get_pkg_path(pkg, path, opts)
 	return ret
 end
 
-local set_my_mappings = function(bufnr)
-	local opts = { buffer = bufnr, remap = false }
-	local set = vim.keymap.set
-	local lspsaga = require("lspsaga")
+local set_lsp_mappings = function(bufnr)
+  local set = vim.keymap.set
 
-	-- TODO: make which-key work on these
-	-- set("n", "<leader>ld", function()
-	-- 	vim.lsp.buf.definition()
-	-- end, opts, { desc = "LSP definition" })
-	set("n", "<leader>lD", function()
-		vim.lsp.buf.declaration()
-	end, opts, { desc = "LSP declaration" })
-	set("n", "<leader>lh", function()
-		-- vim.lsp.buf.hover()
-		vim.cmd("Lspsaga hover_doc")
-	end, opts, { desc = "LSP hover info" })
-	set("n", "<leader>lf", function()
-		vim.diagnostic.open_float()
-	end, opts, { desc = "LSP diagnostic" })
-	set("n", "<leader>lj", function()
-		-- vim.diagnostic.goto_next()
-		vim.cmd("Lspsaga diagnostic_jump_next")
-	end, opts, { desc = "LSP next diagnostic" })
-	set("n", "<leader>lk", function()
-		-- vim.diagnostic.goto_prev()
-		vim.cmd("Lspsaga diagnostic_jump_prev")
-	end, opts, { desc = "LSP prev diagnostic" })
-	set("n", "<leader>la", function()
-		-- vim.lsp.buf.code_action()
-		vim.cmd("Lspsaga code_action")
-	end, opts, { desc = "LSP code action" })
-	set("n", "<leader>lR", function()
-		-- vim.lsp.buf.rename()
-		vim.cmd("Lspsaga rename")
-	end, opts, { desc = "LSP rename" })
-	set("n", "<leader>lS", function()
-		vim.lsp.buf.signature_help()
-	end, opts, { desc = "LSP signature help" })
-	-- set("n", "<leader>vws", function()
-	-- 	vim.lsp.buf.workspace_symbol()
-	-- end, opts)
-	-- vim.keymap.set("n", "<leader>vrr", function()
-	-- 	vim.lsp.buf.references()
-	-- end, opts)
+  set_lsp_telescope_mappings(bufnr)
 
-	set("n", "<leader>lr", "<cmd>Telescope lsp_references<cr>", { desc = "LSP references" })
-	set("n", "<leader>lS", "<cmd>Telescope lsp_workspace_symbols<cr>", { desc = "LSP symbols" })
-	set("n", "<leader>ld", "<cmd>Lspsaga peek_definition<cr>", { desc = "LSP definition" })
-	set("n", "<leader>li", "<cmd>Telescope lsp_implementations<cr>", { desc = "LSP implementation" })
-	set("n", "<leader>le", "<cmd>Telescope diagnostics<cr>", { desc = "LSP diagnostics" })
-	set("n", "<A-d>", "<cmd>Lspsaga term_toggle<cr>", { desc = "Terminal" })
+  -- set("n", "<leader>ld", function()
+  -- 	vim.lsp.buf.definition()
+  -- end, { buffer = bufnr, remap = false, silent = true, desc = "LSP definition" })
+  set("n", "<leader>lD", function()
+    vim.lsp.buf.declaration()
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP declaration" })
+  set("n", "<leader>lh", function()
+    vim.lsp.buf.hover()
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP hover info" })
+  set("n", "<leader>lf", function()
+    vim.diagnostic.open_float()
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP diagnostic" })
+  set("n", "<leader>lj", function()
+    vim.diagnostic.goto_next()
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP next diagnostic" })
+  set("n", "<leader>lk", function()
+    vim.diagnostic.goto_prev()
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP prev diagnostic" })
+  set("n", "<leader>la", function()
+    vim.lsp.buf.code_action()
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP code action" })
+  set("n", "<leader>lR", function()
+    vim.lsp.buf.rename()
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP rename" })
+  set("n", "<leader>lS", function()
+    vim.lsp.buf.signature_help()
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP signature help" })
 end
 
-local server_list = require("oui.utils.server_list")
-if server_list == nil then
-	print("Failed to load lsp server list")
-end
+local set_lspsaga_mappings = function(bufnr)
+  local opts = { buffer = bufnr, remap = false, silent = true }
+  local set = vim.keymap.set
+  set_lsp_telescope_mappings(bufnr)
+  -- local lspsaga = require("lspsaga")
 
-if server_list.others == nil or server_list.lsps == nil then
-	print("Failed to load subtable")
+  set(
+    "n",
+    "<A-d>",
+    "<cmd>Lspsaga term_toggle<cr>",
+    { buffer = bufnr, remap = false, silent = true, desc = "Terminal" }
+  )
+  set(
+    "n",
+    "<leader>ld",
+    "<cmd>Lspsaga peek_definition<cr>",
+    { buffer = bufnr, remap = false, silent = true, desc = "LSP definition" }
+  )
+  set("n", "<leader>lD", function()
+    vim.lsp.buf.declaration()
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP declaration" })
+  set("n", "<leader>lh", function()
+    vim.cmd("Lspsaga hover_doc")
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP hover info" })
+  set("n", "<leader>lf", function()
+    vim.diagnostic.open_float()
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP diagnostic" })
+  set("n", "<leader>lj", function()
+    vim.cmd("Lspsaga diagnostic_jump_next")
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP next diagnostic" })
+  set("n", "<leader>lk", function()
+    vim.cmd("Lspsaga diagnostic_jump_prev")
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP prev diagnostic" })
+  set("n", "<leader>la", function()
+    vim.cmd("Lspsaga code_action")
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP code action" })
+  set("n", "<leader>lR", function()
+    vim.cmd("Lspsaga rename")
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP rename" })
+  set("n", "<leader>lS", function()
+    vim.lsp.buf.signature_help()
+  end, { buffer = bufnr, remap = false, silent = true, desc = "LSP signature help" })
 end
 
 local M = {
@@ -331,4 +376,5 @@ local M = {
 	-- 		opts = {},
 	-- 	},
 }
+
 return M
