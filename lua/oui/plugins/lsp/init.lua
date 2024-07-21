@@ -1,4 +1,5 @@
 -- TODO: jdtls (https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/setup-with-nvim-jdtls.md)
+
 local set_lsp_telescope_mappings = function(bufnr)
   local opts = { buffer = bufnr, remap = false, silent = true }
   local set = vim.keymap.set
@@ -26,6 +27,30 @@ local set_lsp_telescope_mappings = function(bufnr)
     "<cmd>Telescope diagnostics<cr>",
     { buffer = bufnr, remap = false, silent = true, desc = "LSP diagnostics" }
   )
+end
+
+--- Gets a path to a package in the Mason registry.
+--- Prefer this to `get_package`, since the package might not always be
+--- available yet and trigger errors.
+---@param pkg string
+---@param path? string
+---@param opts? { warn?: boolean }
+function get_pkg_path(pkg, path, opts)
+	pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
+	local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
+	opts = opts or {}
+	opts.warn = opts.warn == nil and true or opts.warn
+	path = path or ""
+	local ret = root .. "/packages/" .. pkg .. "/" .. path
+	if opts.warn and not vim.loop.fs_stat(ret) and not require("lazy.core.config").headless() then
+		print(
+			("Mason package path not found for **%s**:\n- `%s`\nYou may need to force update the package."):format(
+				pkg,
+				path
+			)
+		)
+	end
+	return ret
 end
 
 local set_lsp_mappings = function(bufnr)
@@ -107,125 +132,249 @@ local set_lspsaga_mappings = function(bufnr)
 end
 
 local M = {
-  "neovim/nvim-lspconfig",
-  cmd = { "LspInfo", "LspInstall", "LspStart" },
-  event = { "BufReadPre", "BufNewFile" },
-  dependencies = {
-    { "hrsh7th/cmp-nvim-lsp", "nvimdev/lspsaga.nvim" },
-  },
-  config = function()
-    -- some ricing before setting up LSP:
-    vim.diagnostic.config({
-      virtual_text = false,
-      update_in_insert = false,
-      underline = true,
-      severity_sort = true,
-      float = {
-        source = "if_many",
-      },
-    })
+	{
+		"williamboman/mason.nvim",
+		-- cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUpdate" },
+		opts = {
+			ensure_installed = server_list.others,
+		},
 
-    local lspsaga = require("lspsaga")
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
-    local on_attach = function(_, bufnr)
-      set_lspsaga_mappings(bufnr)
-    end
+		config = function(_, opts)
+			require("mason").setup(opts)
+			vim.api.nvim_create_user_command("MasonInstallAll", function()
+				vim.cmd("MasonInstall " .. table.concat(opts.ensure_installed, " "))
+			end, {})
 
-    require("lspconfig").lua_ls.setup({
-      on_init = function(client)
-        local path = client.workspace_folders[1].name
-        if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
-          return
-        end
+			vim.g.mason_binaries_list = opts.ensure_installed
+		end,
+	},
 
-        client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-          runtime = {
-            -- Tell the language server which version of Lua you're using
-            -- (most likely LuaJIT in the case of Neovim)
-            version = "LuaJIT",
-          },
-          -- Make the server aware of Neovim runtime files
-          workspace = {
-            checkThirdParty = false,
-            library = {
-              vim.env.VIMRUNTIME,
-              -- Depending on the usage, you might want to add additional paths here.
-              -- "${3rd}/luv/library"
-              -- "${3rd}/busted/library",
-            },
-            -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
-            -- library = vim.api.nvim_get_runtime_file("", true)
-          },
-        })
-      end,
-      settings = { Lua = {} },
-      on_attach = on_attach,
-      capabilities = capabilities,
-    })
-    require("lspconfig").html.setup({
-      on_attach = on_attach,
-      capabilities = capabilities,
-    })
-    require("lspconfig").cssls.setup({
-      on_attach = on_attach,
-      capabilities = capabilities,
-    })
-    require("lspconfig").bashls.setup({
-      on_attach = on_attach,
-      capabilities = capabilities,
-    })
-    require("lspconfig").nixd.setup({
-      on_attach = on_attach,
-      capabilities = capabilities,
-    })
-    require("lspconfig").emmet_language_server.setup({
-      on_attach = on_attach,
-      capabilities = capabilities,
-    })
-    require("lspconfig").tailwindcss.setup({
-      on_attach = on_attach,
-      capabilities = capabilities,
-    })
-    require("lspconfig").ruff_lsp.setup({
-      on_attach = on_attach,
-      capabilities = capabilities,
-    })
-    require("lspconfig").volar.setup({
-      on_attach = on_attach,
-      capabilities = capabilities,
-    })
-    require("lspconfig").tsserver.setup({
-      on_attach = on_attach,
-      capabilities = capabilities,
-    })
+	{
+		"VonHeikemen/lsp-zero.nvim",
+		branch = "v3.x",
+		lazy = true,
+		config = false,
+		init = function()
+			-- Disable automatic setup, we are doing it manually
+			vim.g.lsp_zero_extend_cmp = 0
+			vim.g.lsp_zero_extend_lspconfig = 0
+		end,
+	},
 
-    -- clangd: special settings:
-    require("lspconfig").clangd.setup({
-      cmd = {
-        "clangd",
-        "--background-index",
-        "--clang-tidy",
-        "--header-insertion=iwyu",
-        "--completion-style=detailed",
-        "--function-arg-placeholders",
-        "--fallback-style=llvm",
-        "--offset-encoding=utf-16",
-      },
-      on_attach = function(_, bufnr)
-        set_lspsaga_mappings(bufnr)
-        vim.keymap.set("n", "<leader>ls", function()
-          vim.cmd("ClangdSwitchSourceHeader")
-        end, { buffer = bufnr, remap = false, silent = true, desc = "ClangdSwitchSourceHeader" })
-      end,
-    })
+	-- Autocompletion: view cmp.lua
+	-- LSP, servers are configured in the mason-lspconfig plugins' config, not directly lspconfig
+	{
+		"neovim/nvim-lspconfig",
+		cmd = { "LspInfo", "LspInstall", "LspStart" },
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			{ "hrsh7th/cmp-nvim-lsp" },
+			{ "williamboman/mason-lspconfig.nvim" },
+		},
+		config = function()
+			-- some ricing before setting up LSP:
+			vim.diagnostic.config({
+				virtual_text = false,
+				update_in_insert = false,
+				underline = true,
+				severity_sort = true,
+				float = {
+					source = "if_many",
+				},
+			})
 
-    require("lspconfig").cmake.setup({
-      on_attach = on_attach,
-      capabilities = capabilities,
-    })
+			-- This is where all the LSP shenanigans will live
+			local lsp_zero = require("lsp-zero")
+			lsp_zero.extend_lspconfig()
 
-    -- require("lspconfig").glsl_analyzer.setup({})
-  end,
+			lsp_zero.on_attach(function(client, bufnr)
+				set_my_mappings(bufnr)
+			end)
+
+			lsp_zero.set_sign_icons({
+				error = "✘",
+				warn = "▲",
+				hint = "⚑",
+				info = "»",
+			})
+
+			-- require("lspconfig").glsl_analyzer.setup({})
+			require("mason-lspconfig").setup({
+				ensure_installed = server_list.lsps,
+				handlers = {
+					lsp_zero.default_setup,
+					lsp_zero.set_server_config({
+						capabilities = {
+							textDocument = {
+								foldingRange = {
+									dynamicRegistration = false,
+									lineFoldingOnly = true,
+								},
+							},
+						},
+					}),
+					lsp_zero.setup_servers(
+						{ server_list.lsps },
+						{ exclude = { "lua_ls", "clangd", "tsserver", "ltex", "vtsls" } }
+					),
+
+					-- setup lua for neovim (lspzero provided)
+					lua_ls = function()
+						local lua_opts = lsp_zero.nvim_lua_ls()
+						require("lspconfig").lua_ls.setup(lua_opts)
+					end,
+					ltex = function()
+						require("lspconfig").ltex.setup({
+							settings = {
+								ltex = {
+									language = "fr",
+									enabled = true,
+								},
+							},
+						})
+					end,
+					-- fix illuminate + null_ls conflict TODO: try without it
+					clangd = function()
+						require("lspconfig").clangd.setup({
+							cmd = { "clangd", "--offset-encoding=utf-16" },
+							on_attach = function(client, bufnr)
+								local opts = { buffer = bufnr, remap = false }
+								local set = vim.keymap.set
+								set("n", "<leader>ls", function()
+									vim.cmd("ClangdSwitchSourceHeader")
+								end, opts, { desc = "Clangd Switch Source Header" })
+								lsp_zero.on_attach(client, bufnr)
+								require("clangd_extensions.inlay_hints").setup_autocmd()
+								require("clangd_extensions.inlay_hints").set_inlay_hints()
+							end,
+						})
+					end,
+					tsserver = lsp_zero.noop,
+
+					vtsls = function()
+						require("lspconfig").vtsls.setup({
+							filetypes = {
+								"javascript",
+								"javascriptreact",
+								"javascript.jsx",
+								"typescript",
+								"typescriptreact",
+								"typescript.tsx",
+								"vue",
+							},
+							settings = {
+								complete_function_calls = true,
+								vtsls = {
+									enableMoveToFileCodeAction = true,
+									autoUseWorkspaceTsdk = true,
+									experimental = {
+										completion = {
+											enableServerSideFuzzyMatch = true,
+										},
+									},
+									globalPlugins = {
+										{
+											name = "@vue/typescript-plugin",
+											location = get_pkg_path(
+												"vue-language-server",
+												"/node_modules/@vue/language-server"
+											),
+											languages = { "vue" },
+											configNamespace = "typescript",
+											enableForWorkspaceTypeScriptVersions = true,
+										},
+									},
+								},
+								typescript = {
+									updateImportsOnFileMove = { enabled = "always" },
+									suggest = {
+										completeFunctionCalls = true,
+									},
+									inlayHints = {
+										enumMemberValues = { enabled = true },
+										functionLikeReturnTypes = { enabled = true },
+										parameterNames = { enabled = "literals" },
+										parameterTypes = { enabled = true },
+										propertyDeclarationTypes = { enabled = true },
+										variableTypes = { enabled = false },
+									},
+								},
+							},
+							keys = {
+								{
+									"gD",
+									function()
+										require("vtsls").commands.goto_source_definition(0)
+									end,
+									desc = "Goto Source Definition",
+								},
+								{
+									"gR",
+									function()
+										require("vtsls").commands.file_references(0)
+									end,
+									desc = "File References",
+								},
+								{
+									"<leader>co",
+									function()
+										require("vtsls").commands.organize_imports(0)
+									end,
+									desc = "Organize Imports",
+								},
+								{
+									"<leader>cM",
+									function()
+										require("vtsls").commands.add_missing_imports(0)
+									end,
+									desc = "Add missing imports",
+								},
+								{
+									"<leader>cu",
+									function()
+										require("vtsls").commands.remove_unused_imports(0)
+									end,
+									desc = "Remove unused imports",
+								},
+								{
+									"<leader>cD",
+									function()
+										require("vtsls").commands.fix_all(0)
+									end,
+									desc = "Fix all diagnostics",
+								},
+								{
+									"<leader>cV",
+									function()
+										require("vtsls").commands.select_ts_version(0)
+									end,
+									desc = "Select TS workspace version",
+								},
+							},
+						})
+					end,
+				},
+			})
+		end,
+	},
+
+	-- vtsls, alternative to typescript-tools, shipped by lazyvim
+	{
+		"yioneko/nvim-vtsls",
+		lazy = true,
+		opts = {},
+		config = function(_, opts)
+			require("vtsls").config(opts)
+		end,
+	},
+
+	-- tsserver plugin, better than normal lsp
+	-- 	{
+	-- 		"pmizio/typescript-tools.nvim",
+	-- 		ft = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
+	-- 		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+	-- 		opts = {},
+	-- 	},
 }
 
 return M

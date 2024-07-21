@@ -31,6 +31,7 @@ local M = {
 					typescript = { "prettier" },
 					typescriptreact = { "prettier" },
 					nix = { "nixfmt" },
+					vue = { "prettier" },
 				},
 
 				format_on_save = {
