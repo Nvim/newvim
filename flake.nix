@@ -75,7 +75,7 @@
             bash-language-server
 
             # Lint:
-            cmake-lint
+            # cmake-lint
             hadolint
             php83Packages.php-codesniffer # PHPCS
 
