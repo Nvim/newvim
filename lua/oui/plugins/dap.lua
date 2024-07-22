@@ -36,7 +36,7 @@ return {
   -- OPTS
   opts = function()
     local dap, dapui = require("dap"), require("dapui")
-    -- require("nvim-dap-virtual-text").setup()
+    require("nvim-dap-virtual-text").setup()
     if not dap.adapters["codelldb"] then
       require("dap").adapters["codelldb"] = {
         type = "server",
@@ -51,12 +51,55 @@ return {
         },
       }
     end
+    if not dap.adapters["lldb"] then
+      require("dap").adapters["lldb"] = {
+        type = "executable",
+        command = "lldb-dap", -- adjust as needed, must be absolute path
+        name = "lldb",
+      }
+    end
+    if not dap.adapters["lldb"] then
+      dap.adapters.gdb = {
+        type = "executable",
+        command = "gdb",
+        args = { "-i", "dap" },
+      }
+    end
     for _, lang in ipairs({ "c", "cpp" }) do
       dap.configurations[lang] = {
         {
+          name = "Launch file (gdb)",
+          type = "gdb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopAtBeginningOfMainSubprogram = false,
+        },
+        {
+          name = "Launch file (lldb)",
+          type = "lldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+          args = {},
+        },
+        {
+          name = "Attach to process (lldb)",
+          type = "lldb",
+          request = "attach",
+          pid = require("dap.utils").pick_process,
+          args = {},
+          cwd = "${workspaceFolder}",
+        },
+        {
           type = "codelldb",
           request = "launch",
-          name = "Launch file",
+          name = "Launch file (Codelldb)",
           program = function()
             return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
           end,
@@ -65,7 +108,7 @@ return {
         {
           type = "codelldb",
           request = "attach",
-          name = "Attach to process",
+          name = "Attach to process (Codelldb)",
           pid = require("dap.utils").pick_process,
           cwd = "${workspaceFolder}",
         },

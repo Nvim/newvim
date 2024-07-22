@@ -26,12 +26,12 @@ return {
   },
   -- mappings:
   keys = {
-    { "<leader>cg", ":CMakeGenerate",          { desc = "CMake Generate" } },
-    { "<leader>cb", ":CMakeBuild",             { desc = "CMake Build" } },
-    { "<leader>cB", ":CMakeQuickBuild",        { desc = "CMake Build Target" } },
-    { "<leader>cr", ":CMakeRun",               { desc = "CMake Run" } },
-    { "<leader>cR", ":CMakeQuickRun",          { desc = "CMake Run Target" } },
-    { "<leader>cd", ":CMakeDebug",             { desc = "CMake Debug" } },
-    { "<leader>ct", ":CMakeSelectBuildTarget", { desc = "CMake Select Target" } },
+    { "<leader>cg", ":CMakeGenerate<cr>",          { desc = "CMake Generate" } },
+    { "<leader>cb", ":CMakeBuild<cr>",             { desc = "CMake Build" } },
+    { "<leader>cB", ":CMakeQuickBuild<cr>",        { desc = "CMake Build Target" } },
+    { "<leader>cr", ":CMakeRun<cr>",               { desc = "CMake Run" } },
+    { "<leader>cR", ":CMakeQuickRun<cr>",          { desc = "CMake Run Target" } },
+    { "<leader>cd", ":CMakeDebug<cr>",             { desc = "CMake Debug" } },
+    { "<leader>ct", ":CMakeSelectBuildTarget<cr>", { desc = "CMake Select Target" } },
   },
 }
