@@ -71,6 +71,7 @@
             ruff-lsp
             vscode-extensions.vue.volar
             nodePackages.typescript-language-server
+            nodePackages.intelephense
             # npm install -g @vtsls/language-server
             bash-language-server
 

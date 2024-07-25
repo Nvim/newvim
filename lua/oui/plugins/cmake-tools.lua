@@ -23,6 +23,14 @@ return {
     cmake_regenerate_on_save = false,
     cmake_executor = { name = "quickfix" },
     cmake_runner = { name = "quickfix" },
+    cmake_dap_configuration = { -- debug settings for cmake
+      name = "CMake Debugger",
+      type = "lldb",
+      request = "launch",
+      stopOnEntry = false,
+      runInTerminal = true,
+      console = "integratedTerminal",
+    },
   },
   -- mappings:
   keys = {

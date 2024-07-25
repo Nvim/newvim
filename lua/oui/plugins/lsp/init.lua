@@ -194,6 +194,10 @@ local M = {
       on_attach = on_attach,
       capabilities = capabilities,
     })
+    require("lspconfig").intelephense.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
     require("lspconfig").tsserver.setup({
       on_attach = on_attach,
       capabilities = capabilities,
