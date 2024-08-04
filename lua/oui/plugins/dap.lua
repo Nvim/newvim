@@ -37,6 +37,7 @@ return {
   opts = function()
     local dap, dapui = require("dap"), require("dapui")
     require("nvim-dap-virtual-text").setup()
+    require("overseer").enable_dap()
     if not dap.adapters["codelldb"] then
       require("dap").adapters["codelldb"] = {
         type = "server",

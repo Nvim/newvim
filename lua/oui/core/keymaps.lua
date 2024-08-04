@@ -74,7 +74,7 @@ keymap.set(
 )
 
 -- NeoTree --
-keymap.set("n", "<leader>e", "<cmd>Neotree toggle<cr>", { desc = "Toggle Neotree" })
+keymap.set("n", "<leader>E", "<cmd>Neotree toggle<cr>", { desc = "Toggle Neotree" })
 
 --[[ Comment ]]
 keymap.set("n", "<leader>/", function()
