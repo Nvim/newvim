@@ -72,8 +72,10 @@
             vscode-extensions.vue.volar
             nodePackages.typescript-language-server
             nodePackages.intelephense
-            # npm install -g @vtsls/language-server
+            tailwindcss-language-server
             bash-language-server
+            # npm install -g @vtsls/language-server
+            # npm install -g vscode-langservers-extracted
 
             # Lint:
             # cmake-lint

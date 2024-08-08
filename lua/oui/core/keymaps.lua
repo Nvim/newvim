@@ -87,3 +87,6 @@ keymap.set(
   "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
   { desc = "Comment line" }
 )
+
+keymap.set("n", "<leader>nx", ":cd $NOTES_DIR<cr>", { desc = "Go to notes dir" })
+keymap.set("n", "<leader>DD", ":!rm '%:p'<cr>:bd<cr>", { desc = "Delete current file" })

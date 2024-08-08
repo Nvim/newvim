@@ -15,23 +15,34 @@ return {
         null_ls.builtins.formatting.nixfmt,
         null_ls.builtins.formatting.shfmt,
         null_ls.builtins.formatting.pint,
+        null_ls.builtins.formatting.gofmt,
 
         null_ls.builtins.diagnostics.cmake_lint,
         null_ls.builtins.diagnostics.phpcs,
         -- null_ls.builtins.diagnostics.pylint,
         null_ls.builtins.diagnostics.hadolint,
+        null_ls.builtins.diagnostics.golangci_lint,
+        -- null_ls.builtins.diagnostics.revive,
+
+        -- null_ls.builtins.code_actions.refactoring, -- doesn't work
       },
 
       on_attach = function(client, bufnr)
         if client.supports_method("textDocument/formatting") then
-          vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            group = augroup,
-            buffer = bufnr,
-            callback = function()
-              vim.lsp.buf.format({ async = false })
-            end,
-          })
+          -- vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+          -- vim.api.nvim_create_autocmd("BufWritePre", {
+          --   group = augroup,
+          --   buffer = bufnr,
+          --   callback = function()
+          --     vim.lsp.buf.format({ async = false })
+          -- end,
+          -- })
+          vim.keymap.set(
+            "n",
+            "<leader>F",
+            ":lua vim.lsp.buf.format({async=false})",
+            { desc = "Format buffer" }
+          )
         end
       end,
     })
