@@ -93,6 +93,16 @@ return {
         set_lspsaga_mappings(bufnr)
       end
 
+    vim.diagnostic.config({
+      virtual_text = false,
+      update_in_insert = false,
+      underline = true,
+      severity_sort = true,
+      float = {
+        source = "if_many",
+      },
+      }),
+
       lspconfig.volar.setup({
         enabled = true,
       })
@@ -198,6 +208,106 @@ return {
         on_attach = on_attach,
         capabilities = capabilities,
       })
+
+      lspconfig.lua_ls.setup({
+      on_init = function(client)
+        local path = client.workspace_folders[1].name
+        if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
+          return
+        end
+
+        client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+          runtime = {
+            -- Tell the language server which version of Lua you're using
+            -- (most likely LuaJIT in the case of Neovim)
+            version = "LuaJIT",
+          },
+          -- Make the server aware of Neovim runtime files
+          workspace = {
+            checkThirdParty = false,
+            library = {
+              vim.env.VIMRUNTIME,
+              -- Depending on the usage, you might want to add additional paths here.
+              -- "${3rd}/luv/library"
+              -- "${3rd}/busted/library",
+            },
+            -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
+            -- library = vim.api.nvim_get_runtime_file("", true)
+          },
+        })
+      end,
+      settings = { Lua = {} },
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+
+    require("lspconfig").html.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+    require("lspconfig").cssls.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+    require("lspconfig").bashls.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+    require("lspconfig").nixd.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+    require("lspconfig").emmet_language_server.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+    require("lspconfig").tailwindcss.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+    require("lspconfig").ruff_lsp.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+    require("lspconfig").intelephense.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+    -- require("lspconfig").tsserver.setup({
+    --   on_attach = on_attach,
+    --   capabilities = capabilities,
+    -- })
+
+    require("lspconfig").gopls.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+
+    -- clangd: special settings:
+    require("lspconfig").clangd.setup({
+      cmd = {
+        "clangd",
+        "--background-index",
+        "--clang-tidy",
+        "--header-insertion=iwyu",
+        "--completion-style=detailed",
+        "--function-arg-placeholders",
+        "--fallback-style=llvm",
+        "--offset-encoding=utf-16",
+      },
+      on_attach = function(_, bufnr)
+        set_lspsaga_mappings(bufnr)
+        vim.keymap.set("n", "<leader>ls", function()
+          vim.cmd("ClangdSwitchSourceHeader")
+        end, { buffer = bufnr, remap = false, silent = true, desc = "ClangdSwitchSourceHeader" })
+      end,
+    })
+
+    require("lspconfig").cmake.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+
     end,
   },
 }
