@@ -74,6 +74,7 @@
             nodePackages.intelephense
             tailwindcss-language-server
             bash-language-server
+            gopls
             # npm install -g @vtsls/language-server
             # npm install -g vscode-langservers-extracted
 
@@ -81,6 +82,7 @@
             # cmake-lint
             hadolint
             php83Packages.php-codesniffer # PHPCS
+            golangci-lint
 
             # Format:
             nixfmt-rfc-style
@@ -92,7 +94,7 @@
             shfmt
 
             # DAP:
-            vscode-extensions.vadimcn.vscode-lldb
+            # vscode-extensions.vadimcn.vscode-lldb
           ];
 
           extraConfig = ''
