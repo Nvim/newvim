@@ -60,6 +60,8 @@
             php83Packages.composer
             python311
             python311Packages.pip
+            go
+            gotools # goimports
 
             # LSP:
             clang-tools # for clangd
@@ -92,9 +94,14 @@
             isort
             black
             shfmt
+            gofumpt
 
             # DAP:
-            # vscode-extensions.vadimcn.vscode-lldb
+            delve
+
+            # Misc:
+            gomodifytags
+            impl
           ];
 
           extraConfig = ''

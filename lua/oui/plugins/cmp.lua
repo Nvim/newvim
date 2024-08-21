@@ -15,6 +15,11 @@ return {
     -- local lsp_zero = require("lsp-zero")
     -- local cmp_action = lsp_zero.cmp_action()
     local luasnip = require("luasnip")
+    vim.keymap.set({ "i", "s" }, "<c-Space>", function()
+      if luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      end
+    end, { silent = true })
     require("luasnip.loaders.from_vscode").lazy_load()
 
     cmp.setup({
@@ -31,21 +36,16 @@ return {
         -- { name = "codeium"},
       },
       window = {
-        completion = cmp.config.window.bordered({
-          -- border = "rounded",
-          winhighlight = "CursorLine:PmenuSel",
-          side_padding = 0,
-          col_offset = -3,
-        }),
+        completion = cmp.config.window.bordered({}),
         documentation = cmp.config.window.bordered(),
       },
-      mapping = cmp.mapping.preset.insert({
+      mapping = {
+        ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+        ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
         ["<C-u>"] = cmp.mapping.scroll_docs(-4),
         ["<C-d>"] = cmp.mapping.scroll_docs(4),
-        -- ["<C-f>"] = cmp_action.luasnip_jump_forward(), --navigate snippet placeholders
-        -- ["<C-b>"] = cmp_action.luasnip_jump_backward(),
-        ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-        ["<C-e>"] = cmp.mapping.abort(),    -- close completion window
+        ["<C-w>"] = cmp.mapping.complete(), -- show completion suggestions
+        ["<C-e>"] = cmp.mapping.abort(), -- close completion window
         -- newline if no selection:
         ["<CR>"] = cmp.mapping({
           i = function(fallback)
@@ -58,12 +58,14 @@ return {
           s = cmp.mapping.confirm({ select = true }),
           c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
         }),
-      }),
+        -- ["<C-f>"] = cmp_action.luasnip_jump_forward(), --navigate snippet placeholders
+        -- ["<C-b>"] = cmp_action.luasnip_jump_backward(),
+      },
       -- formatting = lsp_zero.cmp_format(),
       formatting = {
         fields = { "kind", "abbr", "menu" },
         format = require("lspkind").cmp_format({
-					before = require("tailwind-tools.cmp").lspkind_format,
+          before = require("tailwind-tools.cmp").lspkind_format,
           mode = "symbol",
           menu = {
             buffer = "[Buf]",
@@ -73,9 +75,9 @@ return {
           maxwidth = 40,
           ellipsis_char = "..",
         }),
-				-- before = function(entry, vim_item)
-				-- 	vim_item.abbr = vim_item.abbr:match("[^(]+")
-				-- end,
+        -- before = function(entry, vim_item)
+        -- 	vim_item.abbr = vim_item.abbr:match("[^(]+")
+        -- end,
       },
     })
 

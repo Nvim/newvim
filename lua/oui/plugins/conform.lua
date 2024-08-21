@@ -15,22 +15,25 @@ local M = {
 
 					c = { "clang_format" },
 					cpp = { "clang_format" },
+					cmake = { "cmake_format" },
 					lua = { "stylua" },
 					python = { "isort", "black" }, -- isort for imports, black for syntax.
 					php = { "pint" },
-
-					html = { "prettier" },
-					json = { "prettier" },
-					yaml = { "prettier" },
-					yml = { "prettier" },
-					markdown = { "prettier" },
-					tex = { "latexindent" },
-					css = { "prettier" },
-					javascript = { "prettier" },
-					javascriptreact = { "prettier" },
-					typescript = { "prettier" },
-					typescriptreact = { "prettier" },
+					go = { "goimports", "gofumpt" },
 					nix = { "nixfmt" },
+					sh = { "shfmt" },
+
+					html = { "prettierd" },
+					json = { "prettierd" },
+					yaml = { "prettierd" },
+					yml = { "prettierd" },
+					markdown = { "prettierd" },
+					tex = { "latexindent" },
+					css = { "prettierd" },
+					-- javascript = { "prettierd" },
+					-- javascriptreact = { "prettierd" },
+					-- typescript = { "prettierd" },
+					-- typescriptreact = { "prettierd" },
 				},
 
 				format_on_save = {
@@ -43,4 +46,4 @@ local M = {
 	},
 }
 
-return {}
+return M

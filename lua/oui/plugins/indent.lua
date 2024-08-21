@@ -11,13 +11,17 @@
 -- 	end,
 -- }
 return {
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		main = "ibl",
-		config = function()
-			require("ibl").setup({
-				indent = { char = "┊" },
-			})
-		end,
-	},
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    dependencies = {
+      "HiPhish/rainbow-delimiters.nvim",
+    },
+    main = "ibl",
+    config = function()
+      require("ibl").setup({
+        indent = { char = "▏" },
+        scope = { char = "▎" },
+      })
+    end,
+  },
 }

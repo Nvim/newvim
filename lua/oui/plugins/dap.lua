@@ -31,12 +31,17 @@ return {
     },
     "nvim-neotest/nvim-nio",
     { "theHamsta/nvim-dap-virtual-text", opts = {} },
+    {
+      "leoluz/nvim-dap-go",
+      opts = {},
+    },
   },
 
   -- OPTS
   opts = function()
     local dap, dapui = require("dap"), require("dapui")
     require("nvim-dap-virtual-text").setup()
+    require("dap-go").setup()
     require("overseer").enable_dap()
     if not dap.adapters["codelldb"] then
       require("dap").adapters["codelldb"] = {
@@ -141,5 +146,10 @@ return {
     -- vscode.json_decode = function(str)
     --   return vim.json.decode(json.json_strip_comments(str))
     -- end
+    local sign = vim.fn.sign_define
+
+    sign("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+    sign("DapBreakpointCondition", { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
+    sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
   end,
 }

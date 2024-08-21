@@ -12,11 +12,14 @@ local M = {
 
 		-- no need to lint c/cpp as clangd already embeds clang-tidy
 		lint.linters_by_ft = {
-			javascript = { "eslint_d" },
-			typescript = { "eslint_d" },
-			javascriptreact = { "eslint_d" },
-			typescriptreact = { "eslint_d" },
-			python = { "mypy", "ruff" },
+			cmake = { "cmakelint" },
+			php = { "phpcs" },
+			dockerfile = { "hadolint" },
+			go = { "golangcilint" },
+			-- javascript = { "eslint_d" },
+			-- typescript = { "eslint_d" },
+			-- javascriptreact = { "eslint_d" },
+			-- typescriptreact = { "eslint_d" },
 		}
 
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
@@ -30,4 +33,4 @@ local M = {
 	end,
 }
 
-return {}
+return M
