@@ -260,49 +260,49 @@ return {
 			hl = { bg = colors.crust, fg = colors.subtext1, bold = true, italic = false },
 		}
 
-		-- local Linters = {
-		--   provider = function()
-		--     local linters = require("lint")._resolve_linter_by_ft(vim.bo.filetype)
-		--
-		--     if #linters == 0 then
-		--       return ""
-		--     end
-		--
-		--     return ("  %s "):format(table.concat(linters, " "))
-		--   end,
-		--   hl = { bg = colors.crust, fg = colors.overlay0 },
-		--   condition = function()
-		--     return conditions.buffer_not_empty() and conditions.hide_in_width()
-		--   end,
-		-- }
+		local Linters = {
+			provider = function()
+				local linters = require("lint")._resolve_linter_by_ft(vim.bo.filetype)
 
-		-- local Formatters = {
-		--   provider = function()
-		--     local formatters = {}
-		--     for _, formatter in pairs(require("conform").list_formatters()) do
-		--       if formatter.available then
-		--         table.insert(formatters, formatter.name)
-		--       end
-		--     end
-		--
-		--     if #formatters == 0 then
-		--       return ""
-		--     end
-		--
-		--     return ("  %s "):format(table.concat(formatters, " "))
-		--   end,
-		--   on_click = {
-		--     callback = function()
-		--       vim.defer_fn(function() end, 100)
-		--     end,
-		--     name = "heirline_Formatters",
-		--   },
-		--   hl = { bg = colors.crust, fg = colors.overlay0 },
-		--   condition = function()
-		--     return conditions.buffer_not_empty() and conditions.hide_in_width()
-		--   end,
-		-- }
-		--
+				if #linters == 0 then
+					return ""
+				end
+
+				return ("  %s "):format(table.concat(linters, " "))
+			end,
+			hl = { bg = colors.crust, fg = colors.overlay0 },
+			condition = function()
+				return conditions.buffer_not_empty() and conditions.hide_in_width()
+			end,
+		}
+
+		local Formatters = {
+			provider = function()
+				local formatters = {}
+				for _, formatter in pairs(require("conform").list_formatters()) do
+					if formatter.available then
+						table.insert(formatters, formatter.name)
+					end
+				end
+
+				if #formatters == 0 then
+					return ""
+				end
+
+				return ("  %s "):format(table.concat(formatters, " "))
+			end,
+			on_click = {
+				callback = function()
+					vim.defer_fn(function() end, 100)
+				end,
+				name = "heirline_Formatters",
+			},
+			hl = { bg = colors.crust, fg = colors.overlay0 },
+			condition = function()
+				return conditions.buffer_not_empty() and conditions.hide_in_width()
+			end,
+		}
+
 		local Diagnostics = {
 			condition = function()
 				return conditions.buffer_not_empty() and conditions.hide_in_width() and conditions.has_diagnostics()
@@ -456,9 +456,9 @@ return {
 				-- FileSize,
 				FileFormat,
 				IndentSizes,
-				-- Linters,
-				-- Formatters,
 				LSPActive,
+				Linters,
+				Formatters,
 				Git,
 			},
 		})
