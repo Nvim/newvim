@@ -71,6 +71,7 @@
             vscode-langservers-extracted
             emmet-language-server
             ruff-lsp
+            pyright
             vscode-extensions.vue.volar
             nodePackages.typescript-language-server
             nodePackages.intelephense
