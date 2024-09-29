@@ -75,7 +75,6 @@ return {
 					},
 					MODE_COLORS = {
 						[""] = colors.yellow,
-						[""] = colors.yellow,
 						["s"] = colors.yellow,
 						["!"] = colors.maroon,
 						["R"] = colors.flamingo,
@@ -96,7 +95,6 @@ return {
 						["niR"] = colors.blue,
 						["niV"] = colors.blue,
 						["no"] = colors.pink,
-						["no"] = colors.pink,
 						["noV"] = colors.pink,
 						["nov"] = colors.pink,
 						["nt"] = colors.red,
@@ -104,7 +102,6 @@ return {
 						["r"] = colors.teal,
 						["r?"] = colors.maroon,
 						["rm"] = colors.sky,
-						["s"] = colors.teal,
 						["t"] = colors.red,
 						["v"] = colors.mauve,
 						["vs"] = colors.mauve,
@@ -200,38 +197,6 @@ return {
 			{ provider = "%< " }
 		)
 
-		local FileType = {
-			provider = function()
-				return (" %s "):format(vim.bo.filetype)
-			end,
-			hl = { bg = colors.crust, fg = colors.overlay0 },
-			condition = function()
-				return conditions.buffer_not_empty() and conditions.hide_in_width()
-			end,
-		}
-
-		local FileSize = {
-			provider = function()
-				local suffix = { "b", "k", "M", "G", "T", "P", "E" }
-				local fsize = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
-				fsize = (fsize < 0 and 0) or fsize
-				if fsize < 1024 then
-					return string.format(" %s ", fsize .. suffix[1])
-				end
-
-				local i = 0
-				if fsize ~= nil then
-					i = math.floor((math.log(fsize) / math.log(1024)))
-				end
-
-				return string.format(" %.2g%s ", fsize / math.pow(1024, i), suffix[i + 1])
-			end,
-			hl = { bg = colors.crust, fg = colors.overlay0 },
-			condition = function()
-				return conditions.buffer_not_empty() and conditions.hide_in_width()
-			end,
-		}
-
 		local LSPActive = {
 			condition = function()
 				return conditions.hide_in_width(120) and conditions.lsp_attached()
@@ -308,10 +273,10 @@ return {
 				return conditions.buffer_not_empty() and conditions.hide_in_width() and conditions.has_diagnostics()
 			end,
 			static = {
-				error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
-				warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
-				info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
-				hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
+				error_icon = " ",
+				warn_icon = " ",
+				info_icon = " ",
+				hint_icon = "󰌵 ",
 			},
 			init = function(self)
 				self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
@@ -418,17 +383,6 @@ return {
 			end,
 		}
 
-		local FileEncoding = {
-			provider = function()
-				local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc
-				return (" %s "):format(enc:upper())
-			end,
-			condition = function()
-				return conditions.buffer_not_empty() and conditions.hide_in_width()
-			end,
-			hl = { bg = colors.crust, fg = colors.overlay0 },
-		}
-
 		local IndentSizes = {
 			provider = function()
 				local indent_type = vim.api.nvim_get_option_value("expandtab", { scope = "local" }) and "Spaces"
@@ -442,7 +396,7 @@ return {
 				return conditions.buffer_not_empty() and conditions.hide_in_width()
 			end,
 		}
-
+		--
 		heirline.setup({
 			statusline = {
 				ViMode,
@@ -450,10 +404,6 @@ return {
 				Diagnostics,
 
 				Align,
-
-				-- FileType,
-				-- FileEncoding,
-				-- FileSize,
 				FileFormat,
 				IndentSizes,
 				LSPActive,
