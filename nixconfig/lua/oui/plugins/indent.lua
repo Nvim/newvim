@@ -11,17 +11,21 @@
 -- 	end,
 -- }
 return {
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    dependencies = {
-      "HiPhish/rainbow-delimiters.nvim",
-    },
-    main = "ibl",
-    config = function()
-      require("ibl").setup({
-        indent = { char = "▏" },
-        scope = { char = "▎" },
-      })
-    end,
-  },
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		dependencies = {
+			"HiPhish/rainbow-delimiters.nvim",
+		},
+		event = "BufEnter",
+		main = "ibl",
+		config = function()
+			require("ibl").setup({
+				indent = {
+					char = "▏",
+					smart_indent_cap = true,
+				},
+				scope = { char = "▎" },
+			})
+		end,
+	},
 }

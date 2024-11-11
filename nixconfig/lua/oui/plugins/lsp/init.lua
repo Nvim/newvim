@@ -262,6 +262,10 @@ local M = {
 					"--fallback-style=llvm",
 					"--offset-encoding=utf-16",
 				},
+				root_dir = vim.fs.root(
+					vim.fs.joinpath(vim.env.PWD, "compile_commands.json"),
+					{ ".clangd", ".clang-format", ".clang-tidy" }
+				) or vim.fn.getcwd(),
 				on_attach = function(_, bufnr)
 					set_lspsaga_mappings(bufnr)
 					vim.keymap.set("n", "<leader>ls", function()

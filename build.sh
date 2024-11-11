@@ -9,7 +9,10 @@ build_nix() {
   fi
   echo "📂 Adding result to path..."
   mkdir -p ~/.local/bin
-  ln -s ./result/bin/nvim ~/.local/bin
+  if [ -f ~/.local/bin/nvim ]; then
+    rm ~/.local/bin/nvim
+  fi
+  ln -s "$(pwd)/result/bin/nvim" ~/.local/bin
   echo "✅ Done!"
 }
 
