@@ -1,5 +1,6 @@
 local opt = vim.opt
 
+opt.exrc = true
 -- for markdown:
 -- opt.conceallevel = 2
 --vim.g.filetype.plugin.on = 1
