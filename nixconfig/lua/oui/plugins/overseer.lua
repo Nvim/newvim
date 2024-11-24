@@ -62,6 +62,12 @@ return {
 		local overseer = require("overseer")
 		overseer.setup(opts)
 
+		-- Extend default Makefile task to output in quickfix.
+		-- Uses `module` to match, since the make builtin is in namespace overseer.template.make
+		overseer.add_template_hook({ module = "^make$" }, function(task_defn, util)
+			util.add_component(task_defn, { "on_output_quickfix", open = true })
+		end)
+
 		-- Autocmd to restart last task
 		vim.api.nvim_create_user_command("OverseerRestartLast", function()
 			local tasks = overseer.list_tasks({ recent_first = true })
