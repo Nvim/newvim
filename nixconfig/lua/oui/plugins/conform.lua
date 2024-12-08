@@ -12,6 +12,12 @@ local M = {
 
 		config = function()
 			require("conform").setup({
+				formatters = {
+					sqlfluff = {
+						-- prepend_args = { "-d", "postgres" },
+						args = { "format", "--dialect=postgres", "-" },
+					},
+				},
 				formatters_by_ft = {
 
 					c = { "clang_format" },
@@ -31,6 +37,7 @@ local M = {
 					markdown = { "prettierd" },
 					tex = { "latexindent" },
 					css = { "prettierd" },
+					sql = { "sqlfluff" },
 					-- javascript = { "prettierd" },
 					-- javascriptreact = { "prettierd" },
 					-- typescript = { "prettierd" },
@@ -42,7 +49,7 @@ local M = {
 					if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
 						return
 					end
-					return { timeout_ms = 500, lsp_format = "fallback" }
+					return { timeout_ms = 1500, lsp_format = "fallback" }
 				end,
 			})
 		end,
@@ -50,6 +57,7 @@ local M = {
 }
 
 if M ~= nil then
+	-- User command to toggle format on save:
 	vim.api.nvim_create_user_command("FormatDisable", function(args)
 		if args.bang then
 			-- FormatDisable! will disable formatting just for this buffer
@@ -67,6 +75,19 @@ if M ~= nil then
 	end, {
 		desc = "Re-enable autoformat-on-save",
 	})
+
+	-- User command to format a range:
+	vim.api.nvim_create_user_command("Format", function(args)
+		local range = nil
+		if args.count ~= -1 then
+			local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+			range = {
+				start = { args.line1, 0 },
+				["end"] = { args.line2, end_line:len() },
+			}
+		end
+		require("conform").format({ async = true, lsp_format = "fallback", range = range })
+	end, { range = true })
 end
 
 return M

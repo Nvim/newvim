@@ -126,6 +126,10 @@ local M = {
 			vim.g.mason_binaries_list = opts.ensure_installed
 		end,
 	},
+	-- {
+	-- 	"nanotee/sqls.nvim",
+	-- 	event = "VeryLazy",
+	-- },
 	{
 		"neovim/nvim-lspconfig",
 		cmd = { "LspInfo", "LspInstall", "LspStart" },
@@ -224,7 +228,21 @@ local M = {
 				on_attach = on_attach,
 				capabilities = capabilities,
 			})
-
+			-- require("lspconfig").sqls.setup({
+			-- 	on_attach = function(client, bufnr)
+			-- 		require("sqls").on_attach(client, bufnr)
+			-- 	end,
+			-- 	settings = {
+			-- 		sqls = {
+			-- 			connections = {
+			-- 				{
+			-- 					driver = "postgresql",
+			-- 					dataSourceName = "host=127.0.0.1 port=15432 user=postgres password= dbname=roger_roger sslmode=disable",
+			-- 				},
+			-- 			},
+			-- 		},
+			-- 	},
+			-- })
 			require("lspconfig").gopls.setup({
 				settings = {
 					gopls = {

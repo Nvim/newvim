@@ -86,6 +86,7 @@
                           tailwindcss-language-server
                           bash-language-server
                           gopls
+                          sqls
                           # npm install -g @vtsls/language-server
                           # npm install -g vscode-langservers-extracted
 

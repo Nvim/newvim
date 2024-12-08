@@ -16,6 +16,7 @@ local M = {
 			php = { "phpcs" },
 			dockerfile = { "hadolint" },
 			go = { "golangcilint" },
+			sql = { "sqlfluff" },
 			-- javascript = { "eslint_d" },
 			-- typescript = { "eslint_d" },
 			-- javascriptreact = { "eslint_d" },
