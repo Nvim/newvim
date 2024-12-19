@@ -35,7 +35,7 @@ local M = {
 		new_notes_location = "notes_subdir",
 		disable_frontmatter = true,
 		completion = {
-			nvim_cmp = true,
+			nvim_cmp = false,
 			min_chars = 2,
 		},
 

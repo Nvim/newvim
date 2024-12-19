@@ -27,6 +27,24 @@ local set_lsp_telescope_mappings = function(bufnr)
 	)
 end
 
+local get_pkg_path = function(pkg, path, opts)
+	pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
+	local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
+	opts = opts or {}
+	opts.warn = opts.warn == nil and true or opts.warn
+	path = path or ""
+	local ret = root .. "/packages/" .. pkg .. "/" .. path
+	if opts.warn and not vim.loop.fs_stat(ret) and not require("lazy.core.config").headless() then
+		M.warn(
+			("Mason package path not found for **%s**:\n- `%s`\nYou may need to force update the package."):format(
+				pkg,
+				path
+			)
+		)
+	end
+	return ret
+end
+
 local set_lsp_mappings = function(bufnr)
 	local set = vim.keymap.set
 
@@ -135,7 +153,7 @@ local M = {
 		cmd = { "LspInfo", "LspInstall", "LspStart" },
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
-			{ "hrsh7th/cmp-nvim-lsp", "nvimdev/lspsaga.nvim" },
+			{ "saghen/blink.cmp", "nvimdev/lspsaga.nvim" },
 		},
 		config = function()
 			-- some ricing before setting up LSP:
@@ -152,11 +170,12 @@ local M = {
 			local vtsls = require("vtsls")
 			local lspsaga = require("lspsaga")
 			local lspconfig = require("lspconfig")
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			capabilities.textDocument.foldingRange = {
-				dynamicRegistration = false,
-				lineFoldingOnly = true,
-			}
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
+			-- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			-- capabilities.textDocument.foldingRange = {
+			-- 	dynamicRegistration = false,
+			-- 	lineFoldingOnly = true,
+			-- }
 			local on_attach = function(_, bufnr)
 				set_lspsaga_mappings(bufnr)
 			end
@@ -400,7 +419,11 @@ local M = {
 							globalPlugins = {
 								{
 									name = "@vue/typescript-plugin",
-									location = "/home/naim/.npm-packages/lib/node_modules/@vue/language-server",
+									-- location = "/home/naim/.npm-packages/lib/node_modules/@vue/language-server",
+									location = get_pkg_path(
+										"vue-language-server",
+										"/node_modules/@vue/language-server"
+									),
 									languages = { "vue" },
 									configNamespace = "typescript",
 									enableForWorkspaceTypeScriptVersions = true,
@@ -417,6 +440,7 @@ local M = {
 				},
 				on_attach = on_attach,
 				capabilities = capabilities,
+				filetypes = { "javscript", "typescript", "javascriptreact", "typescriptreact", "vue" }, -- disable vue
 			})
 
 			-- require("lspconfig").glsl_analyzer.setup({})

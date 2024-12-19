@@ -37,7 +37,7 @@ local M = {
 					markdown = { "prettierd" },
 					tex = { "latexindent" },
 					css = { "prettierd" },
-					sql = { "sqlfluff" },
+					sql = { "sqlfmt" },
 					-- javascript = { "prettierd" },
 					-- javascriptreact = { "prettierd" },
 					-- typescript = { "prettierd" },
@@ -88,12 +88,11 @@ if M ~= nil then
 		end
 		require("conform").format({ async = true, lsp_format = "fallback", range = range })
 	end, { range = true })
+
+	vim.keymap.set("n", "<M-f>", ":Format<cr>", { desc = "Format buffer" })
+	vim.keymap.set("v", "<M-f>", ":Format<cr>", { desc = "Format range" })
+	vim.b.disable_autoformat = true
+	vim.g.disable_autoformat = true
 end
 
 return M
--- Old format on save:
--- format_on_save = {
--- 	lsp_fallback = true,
--- 	async = false,
--- 	timeout_ms = 500,
--- },
