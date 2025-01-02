@@ -101,6 +101,7 @@ return {
 			highlight_overrides = {
 				all = function(colors)
 					return {
+            MiniIndentscopeSymbol = {fg = colors.surface1},
 						CmpItemMenu = { fg = colors.surface2 },
 						CursorLineNr = { fg = colors.text },
 						FloatBorder = { bg = colors.base, fg = colors.surface0 },

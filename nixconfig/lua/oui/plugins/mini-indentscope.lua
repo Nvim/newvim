@@ -38,5 +38,7 @@ return {
         vim.b[data.buf].miniindentscope_disable = true
       end,
     })
+    -- vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", { fg = '#404040' })
+
   end,
 }

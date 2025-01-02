@@ -4,7 +4,6 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		build = ":TSUpdate",
 		dependencies = {
-			{ "nvim-treesitter/nvim-treesitter-textobjects", event = "InsertEnter" },
 			{ "JoosepAlviste/nvim-ts-context-commentstring" },
 			{ "windwp/nvim-ts-autotag" },
 		},
@@ -34,32 +33,6 @@ return {
 						node_incremental = "<C-space>",
 						scope_incremental = "<M-space>",
 						node_decremental = "<bs>",
-					},
-
-					textobjects = {
-						swap = {
-							enable = true,
-							swap_next = { ["<leader>a"] = "@parameter.inner" },
-							swap_previous = { ["<leader>A"] = "@parameter.inner" },
-						},
-						select = {
-							enable = true,
-							lookahead = true,
-
-							keymaps = {
-								["af"] = { query = "@function.outer", desc = "Outer function" },
-								["if"] = { query = "@function.inner", desc = "Inner function" },
-								["ac"] = { query = "@class.outer", desc = "Outer class" },
-								["ic"] = { query = "@class.inner", desc = "Inner class" },
-								["as"] = { query = "@scope", query_group = "locals", desc = "Scope" },
-							},
-							selection_modes = {
-								["@parameter.outer"] = "v", -- charwise
-								["@function.outer"] = "V", -- linewise
-								["@class.outer"] = "<c-v>", -- blockwise
-							},
-							include_surrounding_whitespace = true,
-						},
 					},
 
 					-- ensure these language parsers are installed
