@@ -10,7 +10,7 @@
 -- 		})
 -- 	end,
 -- }
-return {
+local M = {
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		commit = "e7a4442e055ec953311e77791546238d1eaae507",
@@ -30,3 +30,5 @@ return {
 		end,
 	},
 }
+
+return {}
