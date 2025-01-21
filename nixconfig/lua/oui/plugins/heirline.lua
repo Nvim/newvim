@@ -3,7 +3,7 @@ return {
 	lazy = false,
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
-		"neovim/nvim-lspconfig",
+		-- "neovim/nvim-lspconfig",
 	},
 	config = function()
 		local heirline = require("heirline")

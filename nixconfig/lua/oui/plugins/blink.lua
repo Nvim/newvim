@@ -36,7 +36,7 @@ return {
 			},
 			list = {
 				max_items = 20,
-				selection = "preselect",
+				selection = {preselect = true, auto_insert = true },
 			},
 
 			menu = {

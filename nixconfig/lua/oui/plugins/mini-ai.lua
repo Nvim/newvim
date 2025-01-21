@@ -21,8 +21,8 @@ return {
 
         -- Assignments:
         g = ai.gen_spec.treesitter({a = "@assignment.outer", i = "@assignment.inner"}), -- Assignment
-        r = ai.gen_spec.treesitter({a = "@assignment.rhs", i = "@assignment.lhs"}), -- Assignment rhs
-        R = ai.gen_spec.treesitter({a = "@assignment.rhs", i = "@assignment.lhs"}), -- Assignment lhs
+        r = ai.gen_spec.treesitter({a = "@assignment.rhs", i = "@assignment.rhs"}), -- Assignment rhs
+        R = ai.gen_spec.treesitter({a = "@assignment.lhs", i = "@assignment.lhs"}), -- Assignment lhs
 
         -- Misc:
         G = ai.gen_spec.treesitter({a = "@comment.outer", i = "@comment.inner"}), -- Comment

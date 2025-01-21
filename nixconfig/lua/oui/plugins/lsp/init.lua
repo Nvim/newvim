@@ -27,20 +27,6 @@ local set_lsp_telescope_mappings = function(bufnr)
 	)
 end
 
-local get_pkg_path = function(pkg, path, opts)
-	pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
-	local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
-	opts = opts or {}
-	opts.warn = opts.warn == nil and true or opts.warn
-	path = path or ""
-	local ret = root .. "/packages/" .. pkg .. "/" .. path
----@diagnostic disable-next-line: empty-block
-	if opts.warn and not vim.loop.fs_stat(ret) then
-    -- TODO: do something 
-	end
-	return ret
-end
-
 local set_lsp_mappings = function(bufnr)
 	local set = vim.keymap.set
 
@@ -78,8 +64,6 @@ end
 local set_lspsaga_mappings = function(bufnr)
 	local opts = { buffer = bufnr, remap = false, silent = true }
 	local set = vim.keymap.set
-	set_lsp_telescope_mappings(bufnr)
-	-- local lspsaga = require("lspsaga")
 
 	set(
 		"n",
@@ -87,36 +71,105 @@ local set_lspsaga_mappings = function(bufnr)
 		"<cmd>Lspsaga term_toggle<cr>",
 		{ buffer = bufnr, remap = false, silent = true, desc = "Terminal" }
 	)
+
 	set(
 		"n",
 		"<leader>ld",
 		"<cmd>Lspsaga peek_definition<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSP definition" }
+		{ buffer = bufnr, remap = false, silent = true, desc = "LSP peek definition" }
 	)
-	set("n", "<leader>lD", function()
-		vim.lsp.buf.declaration()
-	end, { buffer = bufnr, remap = false, silent = true, desc = "LSP declaration" })
-	set("n", "<leader>lh", function()
-		vim.cmd("Lspsaga hover_doc")
-	end, { buffer = bufnr, remap = false, silent = true, desc = "LSP hover info" })
-	set("n", "<leader>lf", function()
-		vim.diagnostic.open_float()
-	end, { buffer = bufnr, remap = false, silent = true, desc = "LSP diagnostic" })
-	set("n", "<leader>lj", function()
-		vim.cmd("Lspsaga diagnostic_jump_next")
-	end, { buffer = bufnr, remap = false, silent = true, desc = "LSP next diagnostic" })
-	set("n", "<leader>lk", function()
-		vim.cmd("Lspsaga diagnostic_jump_prev")
-	end, { buffer = bufnr, remap = false, silent = true, desc = "LSP prev diagnostic" })
-	set("n", "<leader>la", function()
-		vim.cmd("Lspsaga code_action")
-	end, { buffer = bufnr, remap = false, silent = true, desc = "LSP code action" })
-	set("n", "<leader>lR", function()
-		vim.cmd("Lspsaga rename")
-	end, { buffer = bufnr, remap = false, silent = true, desc = "LSP rename" })
+
+	set(
+		"n",
+		"<leader>lD",
+		"<cmd>Lspsaga peek_type_definition<cr>",
+		{ buffer = bufnr, remap = false, silent = true, desc = "LSP peek declaration" }
+	)
+
+	set(
+		"n",
+		"<leader>lh",
+		"<cmd>Lspsaga hover_doc<cr>",
+		{ buffer = bufnr, remap = false, silent = true, desc = "LSP hover info" }
+	)
+
+	set(
+		"n",
+		"<leader>lj",
+		"<cmd>Lspsaga diagnostic_jump_next<cr>",
+		{ buffer = bufnr, remap = false, silent = true, desc = "LSP next diagnostic" }
+	)
+
+	set(
+		"n",
+		"<leader>lk",
+		"<cmd>Lspsaga diagnostic_jump_prev<cr>",
+		{ buffer = bufnr, remap = false, silent = true, desc = "LSP prev diagnostic" }
+	)
+
+	set(
+		"n",
+		"<leader>la",
+		"<cmd>Lspsaga code_action<cr>",
+		{ buffer = bufnr, remap = false, silent = true, desc = "LSP code action" }
+	)
+
+	set(
+		"n",
+		"<leader>lR",
+		"<cmd>Lspsaga rename<cr>",
+		{ buffer = bufnr, remap = false, silent = true, desc = "LSP rename" }
+	)
+
+	set(
+		"n",
+		"<leader>lx",
+		"<cmd>Lspsaga finder def+imp+ref<cr>",
+		{ buffer = bufnr, remap = false, silent = true, desc = "LSPSaga finder (float)" }
+	)
+
+	set(
+		"n",
+		"<leader>lX",
+		"<cmd>Lspsaga finder def+imp+ref<cr>",
+		{ buffer = bufnr, remap = false, silent = true, desc = "LSPSaga finder (bottom)" }
+	)
+
+	set(
+		"n",
+		"<leader>lc",
+		"<cmd>Lspsaga incoming_calls ++float<cr>",
+		{ buffer = bufnr, remap = false, silent = true, desc = "LSPSaga finder (float)" }
+	)
+
+	set(
+		"n",
+		"<leader>lC",
+		"<cmd>Lspsaga incoming_calls ++normal<cr>",
+		{ buffer = bufnr, remap = false, silent = true, desc = "LSPSaga finder (bottom)" }
+	)
+
+	set(
+		"n",
+		"<leader>lo",
+		"<cmd>Lspsaga outgoing_calls ++float<cr>",
+		{ buffer = bufnr, remap = false, silent = true, desc = "LSPSaga outgoing calls (float)" }
+	)
+
+	set(
+		"n",
+		"<leader>lO",
+		"<cmd>Lspsaga outgoing_calls ++normal<cr>",
+		{ buffer = bufnr, remap = false, silent = true, desc = "LSPSaga outgoing calls (bottom)" }
+	)
+
 	set("n", "<leader>lS", function()
 		vim.lsp.buf.signature_help()
 	end, { buffer = bufnr, remap = false, silent = true, desc = "LSP signature help" })
+
+	set("n", "<leader>lf", function()
+		vim.diagnostic.open_float()
+	end, { buffer = bufnr, remap = false, silent = true, desc = "LSP diagnostic" })
 end
 
 local M = {
@@ -125,33 +178,51 @@ local M = {
 		lazy = true,
 	},
 	{
-		"williamboman/mason.nvim",
-		cmd = { "Mason", "MasonInstall", "MasonUpdate", "MasonInstallAll" },
-		opts = {
-			-- ensure_installed = require("utils.server_list").others,
-			ensure_installed = {},
-		},
-		config = function(_, opts)
-			require("mason").setup(opts)
-			vim.api.nvim_create_user_command("MasonInstallAll", function()
-				vim.cmd("MasonInstall " .. table.concat(opts.ensure_installed, " "))
-			end, {})
-
-			vim.g.mason_binaries_list = opts.ensure_installed
-		end,
-	},
-	-- {
-	-- 	"nanotee/sqls.nvim",
-	-- 	event = "VeryLazy",
-	-- },
-	{
 		"neovim/nvim-lspconfig",
 		cmd = { "LspInfo", "LspInstall", "LspStart" },
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			{ "saghen/blink.cmp", "nvimdev/lspsaga.nvim" },
 		},
-		config = function()
+		opts = {
+			inlayHints = {
+				enabled = true,
+				exclude = {},
+			},
+			codelenses = {
+				enabled = false,
+			},
+			capabilites = {
+				workspace = {
+					fileOperations = {
+						didRename = true,
+						willRename = true,
+					},
+					textDocument = {
+						foldingRange = {
+							dynamicRegistration = false,
+							lineFoldingOnly = true,
+						},
+					},
+				},
+			},
+
+			-- Servers:
+			servers = {
+				lua_ls = require("oui.plugins.lsp.server_opts.lua_ls"),
+				gopls = require("oui.plugins.lsp.server_opts.gopls"),
+				html = {},
+				cssls = {},
+				bashls = {},
+				nixd = {},
+				emmet_language_server = {},
+				tailwindcss = {},
+				ruff = {},
+				pyright = {},
+				intelephense = {},
+			},
+		},
+		config = function(_, opts)
 			-- some ricing before setting up LSP:
 			vim.diagnostic.config({
 				virtual_text = false,
@@ -163,284 +234,183 @@ local M = {
 				},
 			})
 
-			local vtsls = require("vtsls")
-			local lspsaga = require("lspsaga")
-			local lspconfig = require("lspconfig")
-      local capabilities = require("blink.cmp").get_lsp_capabilities()
-			-- local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			-- capabilities.textDocument.foldingRange = {
-			-- 	dynamicRegistration = false,
-			-- 	lineFoldingOnly = true,
-			-- }
-			local on_attach = function(_, bufnr)
-				set_lspsaga_mappings(bufnr)
-			end
+			-- local vtsls = require("vtsls")
+      local has_blink, blink = pcall(require, "blink.cmp")
+      local has_lspsaga, lspsaga = pcall(require, "lspsaga")
 
-			require("lspconfig").lua_ls.setup({
-				on_init = function(client)
-					local path = client.workspace_folders[1].name
-					if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
-						return
+			-- Callback to run for all server on attach:
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(ev)
+					-- Merge blink capabilites:
+					local client = vim.lsp.get_client_by_id(ev.data.client_id)
+					if has_blink then
+						client.capabilities = blink.get_lsp_capabilities(client.capabilites)
 					end
 
-					client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-						runtime = {
-							-- Tell the language server which version of Lua you're using
-							-- (most likely LuaJIT in the case of Neovim)
-							version = "LuaJIT",
-						},
-						-- Make the server aware of Neovim runtime files
-						workspace = {
-							checkThirdParty = false,
-							library = {
-								vim.env.VIMRUNTIME,
-								-- Depending on the usage, you might want to add additional paths here.
-								-- "${3rd}/luv/library"
-								-- "${3rd}/busted/library",
-							},
-							-- or pull in all of 'runtimepath'. NOTE: this is a lot slower
-							-- library = vim.api.nvim_get_runtime_file("", true)
-						},
-					})
+					-- Set keymaps:
+					if has_lspsaga then
+						set_lspsaga_mappings(ev.buf)
+					else
+						set_lsp_mappings(ev.buf)
+					end
 				end,
-				settings = { Lua = {} },
-				on_attach = on_attach,
-				capabilities = capabilities,
 			})
-			require("lspconfig").html.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-			require("lspconfig").cssls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-			require("lspconfig").bashls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-			require("lspconfig").nixd.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-			require("lspconfig").emmet_language_server.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-			require("lspconfig").tailwindcss.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-			require("lspconfig").ruff.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-			require("lspconfig").pyright.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-			require("lspconfig").intelephense.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-			-- require("lspconfig").sqls.setup({
-			-- 	on_attach = function(client, bufnr)
-			-- 		require("sqls").on_attach(client, bufnr)
+
+			local servers = opts.servers
+
+			local function setup(server)
+				local server_opts = servers[server] or {}
+				if server_opts.enabled == false then
+					return
+				end
+				require("lspconfig")[server].setup(server_opts)
+			end
+
+			for server, server_opts in pairs(servers) do
+				if server_opts then
+					server_opts = server_opts == true and {} or server_opts
+					setup(server)
+				end
+			end
+
+			-- -- clangd: special settings:
+			-- require("lspconfig").clangd.setup({
+			-- 	cmd = {
+			-- 		"clangd",
+			-- 		"--background-index",
+			-- 		"--clang-tidy",
+			-- 		"--header-insertion=iwyu",
+			-- 		"--completion-style=detailed",
+			-- 		"--function-arg-placeholders",
+			-- 		"--fallback-style=llvm",
+			-- 		"--offset-encoding=utf-16",
+			-- 	},
+			-- 	root_dir = vim.fs.root(
+			-- 		vim.fs.joinpath(vim.env.PWD, "compile_commands.json"),
+			-- 		{ ".clangd", ".clang-format", ".clang-tidy" }
+			-- 	) or vim.fn.getcwd(),
+			-- 	on_attach = function(_, bufnr)
+			-- 		set_lspsaga_mappings(bufnr)
+			-- 		vim.keymap.set("n", "<leader>ls", function()
+			-- 			vim.cmd("ClangdSwitchSourceHeader")
+			-- 		end, { buffer = bufnr, remap = false, silent = true, desc = "ClangdSwitchSourceHeader" })
 			-- 	end,
+			-- })
+			--
+			-- lspconfig.volar.setup({
+			-- 	enabled = true,
+			-- })
+			--
+			-- lspconfig.vtsls.setup({
+			-- 	on_attach = function(_, bufnr)
+			-- 		set_lspsaga_mappings(bufnr)
+			-- 		-- vim.keymap.del("n", "<leader>ld", { buffer = bufnr })
+			-- 		vim.keymap.set(
+			-- 			"n",
+			-- 			"<leader>lF", -- TODO: override leader+ld
+			-- 			"<cmd>VtsExec goto_source_definition<cr>",
+			-- 			{ desc = "Go to Typescript source definition" }
+			-- 		)
+			-- 		vim.keymap.set(
+			-- 			"n",
+			-- 			"<leader>lw",
+			-- 			"<cmd>VtsExec file_references<cr>",
+			-- 			{ desc = "Typescript file references" }
+			-- 		)
+			-- 		vim.keymap.set(
+			-- 			"n",
+			-- 			"<leader>lI",
+			-- 			"<cmd>VtsExec organize_imports<cr>",
+			-- 			{ desc = "Typescript Organize imports" }
+			-- 		)
+			-- 		vim.keymap.set(
+			-- 			"n",
+			-- 			"<leader>lM",
+			-- 			"<cmd>VtsExec add_missing_imports<cr>",
+			-- 			{ desc = "Typescript import missing" }
+			-- 		)
+			-- 		vim.keymap.set(
+			-- 			"n",
+			-- 			"<leader>lU",
+			-- 			"<cmd>VtsExec remove_unused_imports<cr>",
+			-- 			{ desc = "Typescript remove unused imports" }
+			-- 		)
+			-- 		vim.keymap.set(
+			-- 			"n",
+			-- 			"<leader>lT",
+			-- 			"<cmd>VtsExec select_ts_version<cr>",
+			-- 			{ desc = "Typescript select TS version" }
+			-- 		)
+			-- 	end,
+			-- 	capabilities = capabilities,
+			-- 	filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+			--
+			-- 	-- Config
 			-- 	settings = {
-			-- 		sqls = {
-			-- 			connections = {
-			-- 				{
-			-- 					driver = "postgresql",
-			-- 					dataSourceName = "host=127.0.0.1 port=15432 user=postgres password= dbname=roger_roger sslmode=disable",
+			-- 		complete_function_calls = true,
+			-- 		vtsls = {
+			--
+			-- 			-- True = don't use the bundled typescript version, use VTSLS bundled version instead.
+			-- 			-- Use command typescript.selectTypescriptVersion to switch
+			-- 			autoUseWorkspaceTsdk = false,
+			--
+			-- 			experimental = {
+			-- 				completion = {
+			-- 					-- Optimize sorting of entries server-side
+			-- 					enableServerSideFuzzyMatch = true,
+			-- 				},
+			-- 			},
+			--
+			-- 			typescript = {
+			-- 				-- Inlay hints setup:
+			-- 				inlayHints = {
+			-- 					parameterNames = { enabled = "literals" },
+			-- 					parameterTypes = { enabled = true },
+			-- 					variableTypes = { enabled = true },
+			-- 					propertyDeclarationTypes = { enabled = true },
+			-- 					functionLikeReturnTypes = { enabled = true },
+			-- 					enumMemberValues = { enabled = true },
+			-- 				},
+			--
+			-- 				-- Misc:
+			-- 				updateImportsOnFileMove = { enabled = "always" },
+			-- 				suggest = {
+			-- 					completeFunctionCalls = true,
+			-- 				},
+			-- 			},
+			--
+			-- 			-- For Vue:
+			-- 			tsserver = {
+			-- 				globalPlugins = {
+			-- 					{
+			-- 						name = "@vue/typescript-plugin",
+			-- 						-- TODO: :h lspconfig-setup-hook
+			-- 						-- location = "/home/naim/.npm-packages/lib/node_modules/@vue/language-server",
+			-- 						location = get_pkg_path(
+			-- 							"vue-language-server",
+			-- 							"/node_modules/@vue/language-server"
+			-- 						),
+			-- 						languages = { "vue" },
+			-- 						configNamespace = "typescript",
+			-- 						enableForWorkspaceTypeScriptVersions = true,
+			-- 					},
 			-- 				},
 			-- 			},
 			-- 		},
 			-- 	},
 			-- })
-			require("lspconfig").gopls.setup({
-				settings = {
-					gopls = {
-						gofumpt = true,
-						codelenses = {
-							gc_details = false,
-							generate = true,
-							regenerate_cgo = true,
-							run_govulncheck = true,
-							test = true,
-							tidy = true,
-							upgrade_dependency = true,
-							vendor = true,
-						},
-						hints = {
-							assignVariableTypes = true,
-							compositeLiteralFields = true,
-							compositeLiteralTypes = true,
-							constantValues = true,
-							functionTypeParameters = true,
-							parameterNames = true,
-							rangeVariableTypes = true,
-						},
-						analyses = {
-							fieldalignment = true,
-							nilness = true,
-							unusedparams = true,
-							unusedwrite = true,
-							useany = true,
-						},
-						usePlaceholders = true,
-						completeUnimported = true,
-						staticcheck = true,
-						directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
-						semanticTokens = true,
-					},
-				},
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-
-			-- clangd: special settings:
-			require("lspconfig").clangd.setup({
-				cmd = {
-					"clangd",
-					"--background-index",
-					"--clang-tidy",
-					"--header-insertion=iwyu",
-					"--completion-style=detailed",
-					"--function-arg-placeholders",
-					"--fallback-style=llvm",
-					"--offset-encoding=utf-16",
-				},
-				root_dir = vim.fs.root(
-					vim.fs.joinpath(vim.env.PWD, "compile_commands.json"),
-					{ ".clangd", ".clang-format", ".clang-tidy" }
-				) or vim.fn.getcwd(),
-				on_attach = function(_, bufnr)
-					set_lspsaga_mappings(bufnr)
-					vim.keymap.set("n", "<leader>ls", function()
-						vim.cmd("ClangdSwitchSourceHeader")
-					end, { buffer = bufnr, remap = false, silent = true, desc = "ClangdSwitchSourceHeader" })
-				end,
-			})
-
-			require("lspconfig").cmake.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-
-			lspconfig.volar.setup({
-				enabled = true,
-			})
-
-			lspconfig.vtsls.setup({
-				on_attach = function(_, bufnr)
-					set_lspsaga_mappings(bufnr)
-					-- vim.keymap.del("n", "<leader>ld", { buffer = bufnr })
-					vim.keymap.set(
-						"n",
-						"<leader>lF", -- TODO: override leader+ld
-						"<cmd>VtsExec goto_source_definition<cr>",
-						{ desc = "Go to Typescript source definition" }
-					)
-					vim.keymap.set(
-						"n",
-						"<leader>lw",
-						"<cmd>VtsExec file_references<cr>",
-						{ desc = "Typescript file references" }
-					)
-					vim.keymap.set(
-						"n",
-						"<leader>lI",
-						"<cmd>VtsExec organize_imports<cr>",
-						{ desc = "Typescript Organize imports" }
-					)
-					vim.keymap.set(
-						"n",
-						"<leader>lM",
-						"<cmd>VtsExec add_missing_imports<cr>",
-						{ desc = "Typescript import missing" }
-					)
-					vim.keymap.set(
-						"n",
-						"<leader>lU",
-						"<cmd>VtsExec remove_unused_imports<cr>",
-						{ desc = "Typescript remove unused imports" }
-					)
-					vim.keymap.set(
-						"n",
-						"<leader>lT",
-						"<cmd>VtsExec select_ts_version<cr>",
-						{ desc = "Typescript select TS version" }
-					)
-				end,
-				capabilities = capabilities,
-				filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-
-				-- Config
-				settings = {
-					complete_function_calls = true,
-					vtsls = {
-
-						-- True = don't use the bundled typescript version, use VTSLS bundled version instead.
-						-- Use command typescript.selectTypescriptVersion to switch
-						autoUseWorkspaceTsdk = false,
-
-						experimental = {
-							completion = {
-								-- Optimize sorting of entries server-side
-								enableServerSideFuzzyMatch = true,
-							},
-						},
-
-						typescript = {
-							-- Inlay hints setup:
-							inlayHints = {
-								parameterNames = { enabled = "literals" },
-								parameterTypes = { enabled = true },
-								variableTypes = { enabled = true },
-								propertyDeclarationTypes = { enabled = true },
-								functionLikeReturnTypes = { enabled = true },
-								enumMemberValues = { enabled = true },
-							},
-
-							-- Misc:
-							updateImportsOnFileMove = { enabled = "always" },
-							suggest = {
-								completeFunctionCalls = true,
-							},
-						},
-
-						-- For Vue:
-						tsserver = {
-							globalPlugins = {
-								{
-									name = "@vue/typescript-plugin",
-									-- location = "/home/naim/.npm-packages/lib/node_modules/@vue/language-server",
-									location = get_pkg_path(
-										"vue-language-server",
-										"/node_modules/@vue/language-server"
-									),
-									languages = { "vue" },
-									configNamespace = "typescript",
-									enableForWorkspaceTypeScriptVersions = true,
-								},
-							},
-						},
-					},
-				},
-			})
-
-			lspconfig.eslint.setup({
-				settings = {
-					workingDirectories = { mode = "auto" },
-				},
-				on_attach = on_attach,
-				capabilities = capabilities,
-				filetypes = { "javscript", "typescript", "javascriptreact", "typescriptreact", "vue" }, -- disable vue
-			})
+			--
+			-- lspconfig.eslint.setup({
+			-- 	settings = {
+			-- 		workingDirectories = { mode = "auto" },
+			-- 	},
+			-- 	on_attach = on_attach,
+			-- 	capabilities = capabilities,
+			-- 	filetypes = { "javscript", "typescript", "javascriptreact", "typescriptreact", "vue" }, -- disable vue
+			-- })
 
 			-- require("lspconfig").glsl_analyzer.setup({})
-			require("ufo").setup()
+			-- require("ufo").setup()
 		end,
 	},
 }
