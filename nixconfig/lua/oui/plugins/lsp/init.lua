@@ -185,11 +185,11 @@ local M = {
 			{ "saghen/blink.cmp", "nvimdev/lspsaga.nvim" },
 		},
 		opts = {
-			inlayHints = {
-				enabled = true,
-				exclude = {},
+			inlay_hints = {
+				enabled = false,
+				exclude = { "clangd" },
 			},
-			codelenses = {
+			codelens = {
 				enabled = false,
 			},
 			capabilites = {
@@ -211,6 +211,15 @@ local M = {
 			servers = {
 				lua_ls = require("oui.plugins.lsp.server_opts.lua_ls"),
 				gopls = require("oui.plugins.lsp.server_opts.gopls"),
+				clangd = require("oui.plugins.lsp.server_opts.clangd"),
+				vtsls = require("oui.plugins.lsp.server_opts.vtsls"),
+				volar = { enabled = true },
+				eslint = {
+					settings = {
+						workingDirectories = { mode = "auto" },
+					},
+					filetypes = { "javscript", "typescript", "javascriptreact", "typescriptreact", "vue" }, -- disable vue
+				},
 				html = {},
 				cssls = {},
 				bashls = {},
@@ -235,8 +244,9 @@ local M = {
 			})
 
 			-- local vtsls = require("vtsls")
-      local has_blink, blink = pcall(require, "blink.cmp")
-      local has_lspsaga, lspsaga = pcall(require, "lspsaga")
+			local has_blink, blink = pcall(require, "blink.cmp")
+			local has_lspsaga, lspsaga = pcall(require, "lspsaga")
+			require("ufo").setup()
 
 			-- Callback to run for all server on attach:
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -252,6 +262,30 @@ local M = {
 						set_lspsaga_mappings(ev.buf)
 					else
 						set_lsp_mappings(ev.buf)
+					end
+
+					-- Conditionally enable codeLens:
+					if opts.codelens.enabled and vim.lsp.codelens then
+						if client.supports_method(client, "textDocument/codeLens") then
+							vim.lsp.codelens.refresh()
+							vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+								buffer = ev.buf,
+								callback = vim.lsp.codelens.refresh(),
+							})
+						end
+					end
+
+					-- Same for inlay hints:
+					if opts.inlay_hints.enabled then
+						if client.supports_method(client, "textDocument/inlayHint") then
+							if
+								vim.api.nvim_buf_is_valid(ev.buf)
+								and vim.bo[ev.buf].buftype == ""
+								and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[ev.buf].filetype)
+							then
+								vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+							end
+						end
 					end
 				end,
 			})
@@ -272,145 +306,6 @@ local M = {
 					setup(server)
 				end
 			end
-
-			-- -- clangd: special settings:
-			-- require("lspconfig").clangd.setup({
-			-- 	cmd = {
-			-- 		"clangd",
-			-- 		"--background-index",
-			-- 		"--clang-tidy",
-			-- 		"--header-insertion=iwyu",
-			-- 		"--completion-style=detailed",
-			-- 		"--function-arg-placeholders",
-			-- 		"--fallback-style=llvm",
-			-- 		"--offset-encoding=utf-16",
-			-- 	},
-			-- 	root_dir = vim.fs.root(
-			-- 		vim.fs.joinpath(vim.env.PWD, "compile_commands.json"),
-			-- 		{ ".clangd", ".clang-format", ".clang-tidy" }
-			-- 	) or vim.fn.getcwd(),
-			-- 	on_attach = function(_, bufnr)
-			-- 		set_lspsaga_mappings(bufnr)
-			-- 		vim.keymap.set("n", "<leader>ls", function()
-			-- 			vim.cmd("ClangdSwitchSourceHeader")
-			-- 		end, { buffer = bufnr, remap = false, silent = true, desc = "ClangdSwitchSourceHeader" })
-			-- 	end,
-			-- })
-			--
-			-- lspconfig.volar.setup({
-			-- 	enabled = true,
-			-- })
-			--
-			-- lspconfig.vtsls.setup({
-			-- 	on_attach = function(_, bufnr)
-			-- 		set_lspsaga_mappings(bufnr)
-			-- 		-- vim.keymap.del("n", "<leader>ld", { buffer = bufnr })
-			-- 		vim.keymap.set(
-			-- 			"n",
-			-- 			"<leader>lF", -- TODO: override leader+ld
-			-- 			"<cmd>VtsExec goto_source_definition<cr>",
-			-- 			{ desc = "Go to Typescript source definition" }
-			-- 		)
-			-- 		vim.keymap.set(
-			-- 			"n",
-			-- 			"<leader>lw",
-			-- 			"<cmd>VtsExec file_references<cr>",
-			-- 			{ desc = "Typescript file references" }
-			-- 		)
-			-- 		vim.keymap.set(
-			-- 			"n",
-			-- 			"<leader>lI",
-			-- 			"<cmd>VtsExec organize_imports<cr>",
-			-- 			{ desc = "Typescript Organize imports" }
-			-- 		)
-			-- 		vim.keymap.set(
-			-- 			"n",
-			-- 			"<leader>lM",
-			-- 			"<cmd>VtsExec add_missing_imports<cr>",
-			-- 			{ desc = "Typescript import missing" }
-			-- 		)
-			-- 		vim.keymap.set(
-			-- 			"n",
-			-- 			"<leader>lU",
-			-- 			"<cmd>VtsExec remove_unused_imports<cr>",
-			-- 			{ desc = "Typescript remove unused imports" }
-			-- 		)
-			-- 		vim.keymap.set(
-			-- 			"n",
-			-- 			"<leader>lT",
-			-- 			"<cmd>VtsExec select_ts_version<cr>",
-			-- 			{ desc = "Typescript select TS version" }
-			-- 		)
-			-- 	end,
-			-- 	capabilities = capabilities,
-			-- 	filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-			--
-			-- 	-- Config
-			-- 	settings = {
-			-- 		complete_function_calls = true,
-			-- 		vtsls = {
-			--
-			-- 			-- True = don't use the bundled typescript version, use VTSLS bundled version instead.
-			-- 			-- Use command typescript.selectTypescriptVersion to switch
-			-- 			autoUseWorkspaceTsdk = false,
-			--
-			-- 			experimental = {
-			-- 				completion = {
-			-- 					-- Optimize sorting of entries server-side
-			-- 					enableServerSideFuzzyMatch = true,
-			-- 				},
-			-- 			},
-			--
-			-- 			typescript = {
-			-- 				-- Inlay hints setup:
-			-- 				inlayHints = {
-			-- 					parameterNames = { enabled = "literals" },
-			-- 					parameterTypes = { enabled = true },
-			-- 					variableTypes = { enabled = true },
-			-- 					propertyDeclarationTypes = { enabled = true },
-			-- 					functionLikeReturnTypes = { enabled = true },
-			-- 					enumMemberValues = { enabled = true },
-			-- 				},
-			--
-			-- 				-- Misc:
-			-- 				updateImportsOnFileMove = { enabled = "always" },
-			-- 				suggest = {
-			-- 					completeFunctionCalls = true,
-			-- 				},
-			-- 			},
-			--
-			-- 			-- For Vue:
-			-- 			tsserver = {
-			-- 				globalPlugins = {
-			-- 					{
-			-- 						name = "@vue/typescript-plugin",
-			-- 						-- TODO: :h lspconfig-setup-hook
-			-- 						-- location = "/home/naim/.npm-packages/lib/node_modules/@vue/language-server",
-			-- 						location = get_pkg_path(
-			-- 							"vue-language-server",
-			-- 							"/node_modules/@vue/language-server"
-			-- 						),
-			-- 						languages = { "vue" },
-			-- 						configNamespace = "typescript",
-			-- 						enableForWorkspaceTypeScriptVersions = true,
-			-- 					},
-			-- 				},
-			-- 			},
-			-- 		},
-			-- 	},
-			-- })
-			--
-			-- lspconfig.eslint.setup({
-			-- 	settings = {
-			-- 		workingDirectories = { mode = "auto" },
-			-- 	},
-			-- 	on_attach = on_attach,
-			-- 	capabilities = capabilities,
-			-- 	filetypes = { "javscript", "typescript", "javascriptreact", "typescriptreact", "vue" }, -- disable vue
-			-- })
-
-			-- require("lspconfig").glsl_analyzer.setup({})
-			-- require("ufo").setup()
 		end,
 	},
 }

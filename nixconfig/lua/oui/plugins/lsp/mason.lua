@@ -1,16 +1,3 @@
-local get_pkg_path = function(pkg, path, opts)
-	pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
-	local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
-	opts = opts or {}
-	opts.warn = opts.warn == nil and true or opts.warn
-	path = path or ""
-	local ret = root .. "/packages/" .. pkg .. "/" .. path
-	---@diagnostic disable-next-line: empty-block
-	if opts.warn and not vim.loop.fs_stat(ret) then
-		-- TODO: do something
-	end
-	return ret
-end
 return {
 	"williamboman/mason.nvim",
 	cmd = { "Mason", "MasonInstall", "MasonUpdate", "MasonInstallAll" },
