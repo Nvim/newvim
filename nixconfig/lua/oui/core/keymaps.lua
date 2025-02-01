@@ -72,27 +72,6 @@ keymap.set("i", "<C-j>", "<Down>", { desc = "Move down" })
 keymap.set("i", "<C-l>", "<Right>", { desc = "Move right" })
 keymap.set("i", "<C-k>", "<Up>", { desc = "Move up" })
 
--- Telescope --
-keymap.set(
-	"n",
-	"<leader>ff",
-	"<cmd>Telescope find_files theme=ivy layout_config={height=0.4} <cr>",
-	{ desc = "Find files" }
-)
-keymap.set("n", "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc = "Find string in buffer" })
-keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
-keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor" })
-keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
-keymap.set("n", "<leader>fr", "<cmd>Telescope registers<cr>", { desc = "Registers" })
-keymap.set("n", "<leader>fm", "<cmd>Telescope marks<cr>", { desc = "Marks" })
-keymap.set("n", "<leader>fn", "<cmd>Telescope man_pages<cr>", { desc = "Marks" })
-keymap.set(
-	"n",
-	"<leader>fa",
-	"<cmd>Telescope find_files follow=true no_ignore=true hidden=true <cr>",
-	{ desc = "Find hidden files" }
-)
-
 -- NeoTree --
 keymap.set("n", "<leader>E", "<cmd>Neotree toggle<cr>", { desc = "Toggle Neotree" })
 

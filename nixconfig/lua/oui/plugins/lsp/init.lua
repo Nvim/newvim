@@ -83,7 +83,7 @@ local set_lspsaga_mappings = function(bufnr)
 		"n",
 		"<leader>lD",
 		"<cmd>Lspsaga peek_type_definition<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSP peek declaration" }
+		{ buffer = bufnr, remap = false, silent = true, desc = "LSP peek type definition" }
 	)
 
 	set(
