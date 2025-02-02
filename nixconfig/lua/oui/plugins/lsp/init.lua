@@ -181,6 +181,9 @@ local M = {
 		"neovim/nvim-lspconfig",
 		cmd = { "LspInfo", "LspInstall", "LspStart" },
 		event = { "BufReadPre", "BufNewFile" },
+    cond = function ()
+      return vim.bo.filetype ~= "java"
+    end,
 		dependencies = {
 			{ "saghen/blink.cmp", "nvimdev/lspsaga.nvim" },
 		},

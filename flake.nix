@@ -75,6 +75,7 @@
                   bash-language-server
                   gopls
                   sqls
+                  jdt-language-server
                   # npm install -g @vtsls/language-server
                   # npm install -g vscode-langservers-extracted
 
