@@ -61,117 +61,6 @@ local set_lsp_mappings = function(bufnr)
 	end, { buffer = bufnr, remap = false, silent = true, desc = "LSP signature help" })
 end
 
-local set_lspsaga_mappings = function(bufnr)
-	local opts = { buffer = bufnr, remap = false, silent = true }
-	local set = vim.keymap.set
-
-	set(
-		"n",
-		"<A-d>",
-		"<cmd>Lspsaga term_toggle<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "Terminal" }
-	)
-
-	set(
-		"n",
-		"<leader>ld",
-		"<cmd>Lspsaga peek_definition<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSP peek definition" }
-	)
-
-	set(
-		"n",
-		"<leader>lD",
-		"<cmd>Lspsaga peek_type_definition<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSP peek type definition" }
-	)
-
-	set(
-		"n",
-		"<leader>lh",
-		"<cmd>Lspsaga hover_doc<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSP hover info" }
-	)
-
-	set(
-		"n",
-		"<leader>lj",
-		"<cmd>Lspsaga diagnostic_jump_next<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSP next diagnostic" }
-	)
-
-	set(
-		"n",
-		"<leader>lk",
-		"<cmd>Lspsaga diagnostic_jump_prev<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSP prev diagnostic" }
-	)
-
-	set(
-		"n",
-		"<leader>la",
-		"<cmd>Lspsaga code_action<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSP code action" }
-	)
-
-	set(
-		"n",
-		"<leader>lR",
-		"<cmd>Lspsaga rename<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSP rename" }
-	)
-
-	set(
-		"n",
-		"<leader>lx",
-		"<cmd>Lspsaga finder def+imp+ref<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSPSaga finder (float)" }
-	)
-
-	set(
-		"n",
-		"<leader>lX",
-		"<cmd>Lspsaga finder def+imp+ref<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSPSaga finder (bottom)" }
-	)
-
-	set(
-		"n",
-		"<leader>lc",
-		"<cmd>Lspsaga incoming_calls ++float<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSPSaga finder (float)" }
-	)
-
-	set(
-		"n",
-		"<leader>lC",
-		"<cmd>Lspsaga incoming_calls ++normal<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSPSaga finder (bottom)" }
-	)
-
-	set(
-		"n",
-		"<leader>lo",
-		"<cmd>Lspsaga outgoing_calls ++float<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSPSaga outgoing calls (float)" }
-	)
-
-	set(
-		"n",
-		"<leader>lO",
-		"<cmd>Lspsaga outgoing_calls ++normal<cr>",
-		{ buffer = bufnr, remap = false, silent = true, desc = "LSPSaga outgoing calls (bottom)" }
-	)
-
-	set("n", "<leader>lS", function()
-		vim.lsp.buf.signature_help()
-	end, { buffer = bufnr, remap = false, silent = true, desc = "LSP signature help" })
-
-	set("n", "<leader>lf", function()
-		vim.diagnostic.open_float()
-	end, { buffer = bufnr, remap = false, silent = true, desc = "LSP diagnostic" })
-end
-
 local M = {
 	{
 		"yioneko/nvim-vtsls",
@@ -261,9 +150,7 @@ local M = {
 					end
 
 					-- Set keymaps:
-					if has_lspsaga then
-						set_lspsaga_mappings(ev.buf)
-					else
+					if has_lspsaga == false then
 						set_lsp_mappings(ev.buf)
 					end
 

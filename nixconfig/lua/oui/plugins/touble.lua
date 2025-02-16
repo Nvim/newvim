@@ -1,5 +1,4 @@
-return
-{
+local M = {
   "folke/trouble.nvim",
   cmd = { "Trouble" },
   opts = {
@@ -46,3 +45,4 @@ return
     },
   },
 }
+return {}
