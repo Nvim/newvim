@@ -1,5 +1,5 @@
 local M = {
-	"epwalsh/obsidian.nvim",
+	"obsidian-nvim/obsidian.nvim",
 	version = "*",
 	lazy = true,
 	ft = "markdown",
@@ -36,6 +36,7 @@ local M = {
 		disable_frontmatter = true,
 		completion = {
 			nvim_cmp = false,
+      blink = true,
 			min_chars = 2,
 		},
 
