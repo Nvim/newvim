@@ -4,6 +4,7 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		build = ":TSUpdate",
 		dependencies = {
+			{ "nvim-treesitter/nvim-treesitter-textobjects" },
 			{ "JoosepAlviste/nvim-ts-context-commentstring" },
 			{ "windwp/nvim-ts-autotag" },
 		},
@@ -33,6 +34,42 @@ return {
 						node_incremental = "<C-space>",
 						scope_incremental = "<M-space>",
 						node_decremental = "<bs>",
+					},
+
+					textobjects = {
+						move = {
+							enable = true,
+              set_jumps = true,
+							goto_next_start = {
+								["]m"] = {query="@function.outer", desc = "Next function"},
+								["]]"] = {query="@class.outer", desc = "Next class start"},
+								["]a"] = {query="@parameter.inner", desc="Next parameter"},
+							},
+							goto_next_end = {
+								["]M"] = "@function.outer",
+								["]["] = "@class.outer",
+								["]A"] = "@parameter.inner",
+							},
+							goto_previous_start = {
+								["[m"] = {query="@function.outer", desc = "Previous function"},
+								["[["] = {query="@class.outer", desc = "Previous class start"},
+								["[a"] = {query="@parameter.inner", desc="Previous parameter"},
+							},
+							goto_previous_end = {
+								["[M"] = "@function.outer",
+								["[]"] = "@class.outer",
+								["[A"] = "@parameter.inner",
+							},
+						},
+						swap = {
+							enable = true,
+							swap_next = {
+								["<leader>a"] = "@parameter.inner",
+							},
+							swap_previous = {
+								["<leader>A"] = "@parameter.inner",
+							},
+						},
 					},
 
 					-- ensure these language parsers are installed
