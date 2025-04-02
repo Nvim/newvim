@@ -5,7 +5,7 @@ return {
 	event = "InsertEnter",
 
 	-- use a release tag to download pre-built binaries
-	version = "v0.*",
+	version = "v1.*",
 
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
@@ -63,18 +63,6 @@ return {
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
 		sources = {
 			default = { "lsp", "path", "snippets", "buffer" },
-			-- providers = function(ctx)
-			-- 	local node = vim.treesitter.get_node()
-			-- 	if vim.bo.filetype == "lua" then
-			-- 		return { "lsp", "path" }
-			-- 	elseif node and vim.tbl_contains({ "comment", "line_comment", "block_comment" }, node:type()) then
-			-- 		return { "buffer" }
-			-- 	else
-			-- 		return { "lsp", "path", "snippets", "buffer" }
-			-- 	end
-			-- end,
-			-- optionally disable cmdline completions
-			-- cmdline = {},
 		},
 	},
 	-- allows extending the providers array elsewhere in your config

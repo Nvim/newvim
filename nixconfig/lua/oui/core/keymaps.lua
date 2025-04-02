@@ -45,11 +45,11 @@ keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
--- switch between windows
-keymap.set("n", "<C-h>", "<C-w>h", { desc = "Window left" })
-keymap.set("n", "<C-l>", "<C-w>l", { desc = "Window right" })
-keymap.set("n", "<C-j>", "<C-w>j", { desc = "Window down" })
-keymap.set("n", "<C-k>", "<C-w>k", { desc = "Window up" })
+-- switch between windows (replaced by tmux-navigator plugin)
+-- keymap.set("n", "<C-h>", "<C-w>h", { desc = "Window left" })
+-- keymap.set("n", "<C-l>", "<C-w>l", { desc = "Window right" })
+-- keymap.set("n", "<C-j>", "<C-w>j", { desc = "Window down" })
+-- keymap.set("n", "<C-k>", "<C-w>k", { desc = "Window up" })
 
 -- find and replace:
 keymap.set("n", "<leader>rr", ":%s/<<C-r><C-w>//g<Left><Left>")
