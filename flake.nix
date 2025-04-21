@@ -35,7 +35,7 @@
           }:
           {
             packages = {
-              neovim = inputs.tolerable.makeNightlyNeovimConfig "nixconfig" {
+              neovim = inputs.tolerable.makeNeovimConfig "nixconfig" {
                 inherit pkgs;
                 src = pkgs.lib.fileset.toSource {
                   root = ./.;
