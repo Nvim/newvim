@@ -12,12 +12,12 @@ return {
 				end
 
 				-- Actions
-				map("n", "<leader>gs", gs.stage_hunk, { desc = "Stage hunk" })
-				map("n", "<leader>gS", gs.stage_buffer, { desc = "Stage buffer" })
+				-- map("n", "<leader>gs", gs.stage_hunk, { desc = "Stage hunk" })
+				-- map("n", "<leader>gS", gs.stage_buffer, { desc = "Stage buffer" })
 
 				map("n", "<leader>gr", gs.reset_hunk, { desc = "Reset hunk" })
 				map("n", "<leader>gR", gs.reset_buffer, { desc = "Reset buffer" })
-				map("n", "<leader>gu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
+				-- map("n", "<leader>gu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
 				map("n", "<leader>gp", gs.preview_hunk, { desc = "Preview hunk" })
 
 				map("n", "<leader>gB", gs.toggle_current_line_blame, { desc = "Toggle blame" })

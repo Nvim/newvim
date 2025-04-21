@@ -13,7 +13,8 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({ { import = "oui.plugins" }, { import = "oui.plugins.lsp" } }, {
 	install = {
-		-- colorscheme = { "" },
+		colorscheme = { "catppuccin" },
+		-- colorscheme = { "gruvbox-baby" },
 	},
 	checker = {
 		enabled = true,
@@ -22,5 +23,5 @@ require("lazy").setup({ { import = "oui.plugins" }, { import = "oui.plugins.lsp"
 	change_detection = {
 		notify = false,
 	},
-	-- lockfile = os.getenv("HOME") .. "/nix/lazy-lock.json",
+	lockfile = os.getenv("HOME") .. "/.config/nvim/lazy-lock.json",
 })

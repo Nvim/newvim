@@ -4,7 +4,7 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		build = ":TSUpdate",
 		dependencies = {
-			{ "nvim-treesitter/nvim-treesitter-textobjects", event = "InsertEnter" },
+			{ "nvim-treesitter/nvim-treesitter-textobjects" },
 			{ "JoosepAlviste/nvim-ts-context-commentstring" },
 			{ "windwp/nvim-ts-autotag" },
 		},
@@ -37,28 +37,38 @@ return {
 					},
 
 					textobjects = {
+						move = {
+							enable = true,
+              set_jumps = true,
+							goto_next_start = {
+								["]m"] = {query="@function.outer", desc = "Next function"},
+								["]]"] = {query="@class.outer", desc = "Next class start"},
+								["]a"] = {query="@parameter.inner", desc="Next parameter"},
+							},
+							goto_next_end = {
+								["]M"] = "@function.outer",
+								["]["] = "@class.outer",
+								["]A"] = "@parameter.inner",
+							},
+							goto_previous_start = {
+								["[m"] = {query="@function.outer", desc = "Previous function"},
+								["[["] = {query="@class.outer", desc = "Previous class start"},
+								["[a"] = {query="@parameter.inner", desc="Previous parameter"},
+							},
+							goto_previous_end = {
+								["[M"] = "@function.outer",
+								["[]"] = "@class.outer",
+								["[A"] = "@parameter.inner",
+							},
+						},
 						swap = {
 							enable = true,
-							swap_next = { ["<leader>a"] = "@parameter.inner" },
-							swap_previous = { ["<leader>A"] = "@parameter.inner" },
-						},
-						select = {
-							enable = true,
-							lookahead = true,
-
-							keymaps = {
-								["af"] = { query = "@function.outer", desc = "Outer function" },
-								["if"] = { query = "@function.inner", desc = "Inner function" },
-								["ac"] = { query = "@class.outer", desc = "Outer class" },
-								["ic"] = { query = "@class.inner", desc = "Inner class" },
-								["as"] = { query = "@scope", query_group = "locals", desc = "Scope" },
+							swap_next = {
+								["<leader>a"] = "@parameter.inner",
 							},
-							selection_modes = {
-								["@parameter.outer"] = "v", -- charwise
-								["@function.outer"] = "V", -- linewise
-								["@class.outer"] = "<c-v>", -- blockwise
+							swap_previous = {
+								["<leader>A"] = "@parameter.inner",
 							},
-							include_surrounding_whitespace = true,
 						},
 					},
 

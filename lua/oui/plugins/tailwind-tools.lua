@@ -1,6 +1,7 @@
 return {
 	"luckasRanarison/tailwind-tools.nvim",
 	dependencies = { "nvim-treesitter/nvim-treesitter" },
+	cmd = { "TailwindConcealToggle", "TailwindColorToggle" },
 	opts = {}, -- your configuration
 	config = function()
 		local set = vim.keymap.set

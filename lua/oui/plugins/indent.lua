@@ -10,14 +10,25 @@
 -- 		})
 -- 	end,
 -- }
-return {
+local M = {
 	{
 		"lukas-reineke/indent-blankline.nvim",
+		commit = "e7a4442e055ec953311e77791546238d1eaae507",
+		dependencies = {
+			"HiPhish/rainbow-delimiters.nvim",
+		},
+		event = "BufEnter",
 		main = "ibl",
 		config = function()
 			require("ibl").setup({
-				indent = { char = "┊" },
+				indent = {
+					char = "▏",
+					smart_indent_cap = true,
+				},
+				scope = { char = "▎" },
 			})
 		end,
 	},
 }
+
+return {}

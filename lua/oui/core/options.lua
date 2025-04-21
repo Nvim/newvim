@@ -1,7 +1,17 @@
 local opt = vim.opt
 
+if vim.g.neovide then
+  vim.o.guifont = "JetBrainsMono Nerd Font"
+  vim.opt.linespace = 1
+  vim.g.neovide_padding_top = 5
+  vim.g.neovide_transparency = 1.0
+  vim.g.neovime_cursor_animation_length = 0.06
+  vim.g.neovime_cursor_trail_size = 0.3
+end
+
+opt.exrc = true
 -- for markdown:
-opt.conceallevel = 2
+-- opt.conceallevel = 2
 --vim.g.filetype.plugin.on = 1
 
 -- line numbers
@@ -49,3 +59,25 @@ opt.swapfile = false
 
 -- virtualedit for visual block --
 opt.virtualedit = "block"
+
+-- diagnostics symbols
+vim.diagnostic.config({
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = " ",
+			[vim.diagnostic.severity.WARN] = " ",
+			[vim.diagnostic.severity.INFO] = " ",
+			[vim.diagnostic.severity.HINT] = "󰌵",
+		},
+		texthl = {
+			[vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+			[vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+			[vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+			[vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+		},
+	},
+})
+-- vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
+-- vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
+-- vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
+-- vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
