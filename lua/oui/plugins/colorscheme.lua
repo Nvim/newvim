@@ -1,7 +1,8 @@
 return {
-  require("oui.plugins.colorschemes.catppuccin"),
-  require("oui.plugins.colorschemes.gruvbox"),
-  require("oui.plugins.colorschemes.miasma"),
-  require("oui.plugins.colorschemes.everforest"),
-  require("oui.plugins.colorschemes.kanagawa"),
+  require("oui.plugins.colorschemes.nord"),
+  -- require("oui.plugins.colorschemes.catppuccin"),
+  -- require("oui.plugins.colorschemes.gruvbox"),
+  -- require("oui.plugins.colorschemes.miasma"),
+  -- require("oui.plugins.colorschemes.everforest"),
+  -- require("oui.plugins.colorschemes.kanagawa"),
 }

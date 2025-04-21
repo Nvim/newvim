@@ -12,11 +12,13 @@ return {
 		{ "<leader>fq", "<cmd>FzfLua lgrep_quickfix<cr>", desc = "Grep Quickfix" },
 		{ "<leader>fg", "<cmd>FzfLua live_grep_native<cr>", desc = "Grep directory" },
 
-		-- session:
+		-- session/lsp:
 		{ "<leader>le", "<cmd>FzfLua diagnostics_document<cr>", desc = "Document Diagnostics" },
 		{ "<leader>lE", "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Workspace Diagnostics" },
-		{ "<leader>lZ", "<cmd>FzfLua document_symbols<cr>", desc = "Document symbols" },
-		{ "<leader>lz", "<cmd>FzfLua workspace_symbols<cr>", desc = "Workspace Symbols" },
+		{ "<leader>lZ", "<cmd>FzfLua lsp_document_symbols<cr>", desc = "Document symbols" },
+		{ "<leader>lz", "<cmd>FzfLua lsp_live_workspace_symbols<cr>", desc = "Workspace Symbols" },
+		{ "<leader>lX", "<cmd>FzfLua lsp_code_actions<cr>", desc = "fzf finder" },
+
 		{ "<leader>fm", "<cmd>FzfLua marks<cr>", desc = "Marks" },
 		{ "<leader>fQ", "<cmd>FzfLua quickfix<cr>", desc = "Quickfix List" },
 		{ "<leader>fr", "<cmd>FzfLua registers<cr>", desc = "Registers" },

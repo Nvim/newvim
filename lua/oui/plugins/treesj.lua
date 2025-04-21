@@ -2,11 +2,6 @@ local M = {
   "Wansmer/treesj",
   keys = {
     {
-      "<space>tt",
-      "<cmd>TSJToggle<CR>",
-      { desc = "TSJ Toggle" },
-    },
-    {
       "<space>ts",
       "<cmd>TSJSplit<CR>",
       { desc = "TSJ Split" },

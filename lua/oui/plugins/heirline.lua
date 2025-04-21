@@ -1,4 +1,4 @@
-return {
+local M = {
 	"rebelot/heirline.nvim",
 	lazy = false,
 	dependencies = {
@@ -462,3 +462,4 @@ return {
 		})
 	end,
 }
+return {}

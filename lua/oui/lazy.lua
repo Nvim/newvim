@@ -13,7 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({ { import = "oui.plugins" }, { import = "oui.plugins.lsp" } }, {
 	install = {
-		colorscheme = { "catppuccin" },
+		colorscheme = { "nord" },
 		-- colorscheme = { "gruvbox-baby" },
 	},
 	checker = {

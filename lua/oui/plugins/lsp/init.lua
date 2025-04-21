@@ -78,13 +78,13 @@ local M = {
 		},
 		opts = {
 			inlay_hints = {
-				enabled = false,
+				enabled = true,
 				exclude = { "clangd" },
 			},
 			codelens = {
-				enabled = false,
+				enabled = true,
 			},
-			capabilites = {
+			capabilities = {
 				workspace = {
 					fileOperations = {
 						didRename = true,
@@ -138,7 +138,6 @@ local M = {
 			-- local vtsls = require("vtsls")
 			local has_blink, blink = pcall(require, "blink.cmp")
 			local has_lspsaga, lspsaga = pcall(require, "lspsaga")
-			require("ufo").setup()
 
 			-- Callback to run for all server on attach:
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -146,8 +145,9 @@ local M = {
 					-- Merge blink capabilites:
 					local client = vim.lsp.get_client_by_id(ev.data.client_id)
 					if has_blink then
-						client.capabilities = blink.get_lsp_capabilities(client.capabilites)
+						client.capabilities = blink.get_lsp_capabilities(opts.capabilites)
 					end
+          require("ufo").setup()
 
 					-- Set keymaps:
 					if has_lspsaga == false then
@@ -158,9 +158,12 @@ local M = {
 					if opts.codelens.enabled and vim.lsp.codelens then
 						if client.supports_method(client, "textDocument/codeLens") then
 							vim.lsp.codelens.refresh()
+              vim.keymap.set("n", "<leader>lL", function ()
+                vim.lsp.codelens.run()
+              end, {buffer = ev.buf, remap = false, silent = true, desc = "LSP Codelens"})
 							vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
 								buffer = ev.buf,
-								callback = vim.lsp.codelens.refresh(),
+								callback = vim.lsp.codelens.refresh,
 							})
 						end
 					end

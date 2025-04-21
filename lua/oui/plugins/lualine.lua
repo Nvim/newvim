@@ -5,17 +5,18 @@ local config = function()
   lualine.setup({
     options = {
 
-      theme = "gruvbox-baby",
-      section_separators = { left = "", right = "" },
+      theme = "nord",
+      section_separators = { left = "", right = "" },
+      component_separators = { left = "", right = ""},
 
-      sections = {
-        lualine_a = { "mode" },
-        lualine_b = { "branch", "diff", "diagnostics" },
-        lualine_c = { "" },
-        lualine_x = { "" },
-        lualine_y = { "diagnostics", "filetype" },
-        lualine_z = { "buffers" },
-      },
+    },
+    sections = {
+      lualine_a = { "mode" },
+      lualine_b = { "branch", "diff", "diagnostics" },
+      lualine_c = { "" },
+      lualine_x = { "overseer" },
+      lualine_y = { "diagnostics", "filetype" },
+      lualine_z = { "buffers" },
     },
   })
 end
@@ -27,4 +28,4 @@ local M = {
   config = config,
 }
 
-return {}
+return M

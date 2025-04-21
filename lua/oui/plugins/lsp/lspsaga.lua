@@ -3,7 +3,7 @@ return {
 	"nvimdev/lspsaga.nvim",
 	opts = {
 		ui = {
-			kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
+			-- kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
 		},
 		code_action = {
 			show_server_name = true,
@@ -13,7 +13,7 @@ return {
 		{ "<leader>ld", "<cmd>Lspsaga peek_definition<cr>", desc = "Lsp peek definition", silent = true },
 		{ "<leader>lt", "<cmd>Lspsaga peek_type_definition<cr>", desc = "Lsp peek type definition", silent = true },
 		{ "<leader>lh", "<cmd>Lspsaga hover_doc<cr>", desc = "Lsp hover doc", silent = true },
-		{ "<leader>la", "<cmd>Lspsaga code_action<cr>", desc = "LSP code actions", silent = true },
+		-- { "<leader>la", "<cmd>Lspsaga code_action<cr>", desc = "LSP code actions", silent = true },
 		{ "<leader>lx", "<cmd>Lspsaga finder def+imp+ref<cr>", desc = "LSPSaga finder (float)", silent = true },
 		{ "<leader>le", "<cmd>Lspsaga show_buf_diagnostics ++normal<cr>", desc = "LSPSaga buffer diagnostics", silent = true },
 		{ "<leader>lE", "<cmd>Lspsaga show_workspace_diagnostics ++normal<cr>", desc = "LSPSaga workspace diagnostics", silent = true },
