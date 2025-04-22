@@ -70,9 +70,9 @@ local M = {
 		"neovim/nvim-lspconfig",
 		cmd = { "LspInfo", "LspInstall", "LspStart" },
 		event = { "BufReadPre", "BufNewFile" },
-    cond = function ()
-      return vim.bo.filetype ~= "java"
-    end,
+		cond = function()
+			return vim.bo.filetype ~= "java"
+		end,
 		dependencies = {
 			{ "saghen/blink.cmp", "nvimdev/lspsaga.nvim" },
 		},
@@ -147,7 +147,7 @@ local M = {
 					if has_blink then
 						client.capabilities = blink.get_lsp_capabilities(opts.capabilites)
 					end
-          require("ufo").setup()
+					require("ufo").setup()
 
 					-- Set keymaps:
 					if has_lspsaga == false then
@@ -158,9 +158,9 @@ local M = {
 					if opts.codelens.enabled and vim.lsp.codelens then
 						if client.supports_method(client, "textDocument/codeLens") then
 							vim.lsp.codelens.refresh()
-              vim.keymap.set("n", "<leader>lL", function ()
-                vim.lsp.codelens.run()
-              end, {buffer = ev.buf, remap = false, silent = true, desc = "LSP Codelens"})
+							vim.keymap.set("n", "<leader>lL", function()
+								vim.lsp.codelens.run()
+							end, { buffer = ev.buf, remap = false, silent = true, desc = "LSP Codelens" })
 							vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
 								buffer = ev.buf,
 								callback = vim.lsp.codelens.refresh,
@@ -177,6 +177,12 @@ local M = {
 								and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[ev.buf].filetype)
 							then
 								vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+								vim.keymap.set("n", "<leader>lH", function()
+									vim.lsp.inlay_hint.enable(
+										not vim.lsp.inlay_hint.is_enabled({ bufnr = ev.buf }),
+										{ bufnr = ev.buf }
+									)
+								end, { buffer = ev.buf, remap = false, silent = true, desc = "LSP toggle inlay hints" })
 							end
 						end
 					end
