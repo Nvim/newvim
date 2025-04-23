@@ -147,10 +147,19 @@ return {
 		-- vscode.json_decode = function(str)
 		--   return vim.json.decode(json.json_strip_comments(str))
 		-- end
-		local sign = vim.fn.sign_define
 
-		sign("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
-		sign("DapBreakpointCondition", { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
+		local sign = vim.fn.sign_define
+		local dap = {
+			Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
+			Breakpoint = " ",
+			BreakpointCondition = " ",
+			BreakpointRejected = { " ", "DiagnosticError" },
+			LogPoint = ".>",
+		}
+		sign("Stopped", { text = "󰁕 ", texthl = "DiagnosticWarn", linehl = "DiagnosticError", numhl = "DapStoppedLine" })
+		sign("DapBreakpoint", { text = " "})
+		sign("DapBreakpointCondition", { text = " "})
+		sign("DapBreakpointRejected", { text = " ", texthl = "DiagnosticError", linehl = "", numhl = "" })
 		sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
 	end,
 }
