@@ -4,7 +4,7 @@ if vim.g.neovide then
   vim.o.guifont = "JetBrainsMono Nerd Font"
   vim.opt.linespace = 1
   vim.g.neovide_padding_top = 5
-  vim.g.neovide_transparency = 1.0
+  vim.g.neovide_opacity = 1.0
   vim.g.neovime_cursor_animation_length = 0.06
   vim.g.neovime_cursor_trail_size = 0.3
 end
