@@ -1,5 +1,5 @@
 return {
-  require("oui.plugins.colorschemes.nord"),
+  require("oui.plugins.colorschemes.black-metal"),
   -- require("oui.plugins.colorschemes.catppuccin"),
   -- require("oui.plugins.colorschemes.gruvbox"),
   -- require("oui.plugins.colorschemes.miasma"),
