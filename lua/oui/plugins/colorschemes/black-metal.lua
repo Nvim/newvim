@@ -30,7 +30,7 @@ return {
 			-- Keymap (in normal mode) to toggle between light and dark variants.
 			toggle_variant_key = nil,
 			-- Don't set background
-			transparent = false,
+			transparent = true,
 
 			-----DIAGNOSTICS and CODE STYLE-----
 			--
