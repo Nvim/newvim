@@ -39,10 +39,10 @@ local M = {
 					tex = { "latexindent" },
 					css = { "prettierd" },
 					sql = { "sqlfmt" },
-					-- javascript = { "prettierd" },
-					-- javascriptreact = { "prettierd" },
-					-- typescript = { "prettierd" },
-					-- typescriptreact = { "prettierd" },
+					javascript = { "prettierd" },
+					javascriptreact = { "prettierd" },
+					typescript = { "prettierd" },
+					typescriptreact = { "prettierd" },
 				},
 
 				format_on_save = function(bufnr)

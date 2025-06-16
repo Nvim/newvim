@@ -1,4 +1,4 @@
-return {
+local M = {
 	{
 		"tpope/vim-dadbod",
 		cmd = "DB",
@@ -53,3 +53,4 @@ return {
 		end,
 	},
 }
+return {}

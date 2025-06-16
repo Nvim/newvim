@@ -1,4 +1,4 @@
-return {
+local M = {
 	"luckasRanarison/tailwind-tools.nvim",
 	dependencies = { "nvim-treesitter/nvim-treesitter" },
 	cmd = { "TailwindConcealToggle", "TailwindColorToggle" },
@@ -11,3 +11,4 @@ return {
 		require("tailwind-tools").setup({})
 	end,
 }
+return {}
