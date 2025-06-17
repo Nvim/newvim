@@ -44,7 +44,7 @@ return {
 			desc = "Run Last (Neotest)",
 		},
 		{
-			"<leader>ts",
+			"<leader>tz",
 			function()
 				require("neotest").summary.toggle()
 			end,

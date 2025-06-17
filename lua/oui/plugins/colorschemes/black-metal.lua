@@ -49,7 +49,7 @@ return {
 				headings = "bold", -- Markdown headings
 				operators = "none",
 				keyword_return = "none",
-				strings = "none",
+				strings = "italic",
 				variables = "bold",
 			},
 

@@ -121,6 +121,7 @@ local M = {
 				ruff = {},
 				pyright = {},
 				intelephense = {},
+        metals = {},
 			},
 		},
 		config = function(_, opts)

@@ -2,7 +2,7 @@ local M = {
 
 	settings = {
 		gopls = {
-			gofumpt = true,
+			gofumpt = false, -- conform for goimports
 			codelenses = {
 				gc_details = false,
 				generate = true,
@@ -16,24 +16,25 @@ local M = {
 			hints = {
 				assignVariableTypes = true,
 				compositeLiteralFields = true,
-				compositeLiteralTypes = true,
+				compositeLiteralTypes = false,
 				constantValues = true,
 				functionTypeParameters = true,
 				parameterNames = true,
 				rangeVariableTypes = true,
 			},
 			analyses = {
-				fieldalignment = true,
 				nilness = true,
 				unusedparams = true,
 				unusedwrite = true,
 				useany = true,
 			},
-			usePlaceholders = true,
+			usePlaceholders = false,
 			completeUnimported = true,
-			staticcheck = true,
+      -- unset: enable a subset of staticcheck analyzers selected by gopls maintainers for runtime efficiency and analytic precision
+      -- staticcheck = true 
 			directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
 			semanticTokens = true,
+      diagnosticsTrigger = "Save",
 		},
 	},
 }

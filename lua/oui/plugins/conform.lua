@@ -29,6 +29,7 @@ local M = {
 					go = { "goimports", "gofumpt" },
 					nix = { "nixfmt" },
 					sh = { "shfmt" },
+          scala = { "scalafmt" },
 
 					html = { "prettierd" },
 					json = { "prettierd" },
