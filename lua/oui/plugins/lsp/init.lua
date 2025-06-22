@@ -79,7 +79,7 @@ local M = {
 		opts = {
 			inlay_hints = {
 				enabled = true,
-				exclude = { "clangd" },
+				exclude = { "cpp", "go" },
 			},
 			codelens = {
 				enabled = true,
@@ -119,7 +119,7 @@ local M = {
 				emmet_language_server = {},
 				tailwindcss = {},
 				ruff = {},
-				pyright = {},
+        basedpyright = {},
 				intelephense = {},
         metals = {},
 			},
