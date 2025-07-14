@@ -15,7 +15,6 @@ return {
 		},
 
 		appearance = {
-			use_nvim_cmp_as_default = true,
 			nerd_font_variant = "mono",
 		},
 
@@ -41,6 +40,8 @@ return {
 			},
 
 			menu = {
+        border = "single",
+				scrollbar = false,
 				draw = {
 					treesitter = { "lsp" },
 					columns = {
@@ -50,6 +51,9 @@ return {
 					},
 				},
 			},
+      documentation = {
+        window = { border = "single" },
+      },
 
 			ghost_text = {
 				enabled = false,

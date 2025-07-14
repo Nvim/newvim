@@ -6,7 +6,7 @@ return {
 		require("black-metal").setup({
 			-- optional configuration here
 			-- Can be one of: bathory | burzum | dark-funeral | darkthrone | emperor | gorgoroth | immortal | impaled-nazarene | khold | marduk | mayhem | nile | taake | venom
-			theme = "dark-funeral",
+			theme = "gorgoroth",
 			-- Can be one of: 'light' | 'dark', or set via vim.o.background
 			variant = "dark",
 			-- Use an alternate, darker bg
@@ -17,12 +17,12 @@ return {
 			-- If true, highlights the {sign,fold} column the same as cursorline
 			cursorline_gutter = true,
 			-- If true, highlights the gutter darker than the bg
-			dark_gutter = false,
+			dark_gutter = true,
 			-- if true favor treesitter highlights over semantic highlights
-			favor_treesitter_hl = false,
+			favor_treesitter_hl = true,
 			-- Don't set background of floating windows. Recommended for when using floating
 			-- windows with borders.
-			plain_float = false,
+			plain_float = true,
 			-- Show the end-of-buffer character
 			show_eob = true,
 			-- If true, enable the vim terminal colors
