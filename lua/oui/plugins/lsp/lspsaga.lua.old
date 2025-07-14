@@ -1,5 +1,5 @@
 -- lspsaga
-return {
+local M = {
 	"nvimdev/lspsaga.nvim",
 	opts = {
 		ui = {
@@ -38,3 +38,5 @@ return {
     })
   }
 }
+
+return {}

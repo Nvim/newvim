@@ -13,11 +13,24 @@ return {
 		{ "<leader>fg", "<cmd>FzfLua live_grep_native<cr>", desc = "Grep directory" },
 
 		-- session/lsp:
-		{ "<leader>le", "<cmd>FzfLua diagnostics_document<cr>", desc = "Document Diagnostics" },
-		{ "<leader>lE", "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Workspace Diagnostics" },
+		{ "<leader>lE", "<cmd>FzfLua diagnostics_document<cr>", desc = "Document Diagnostics" },
+		{ "<leader>le", "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Workspace Diagnostics" },
+
 		{ "<leader>lZ", "<cmd>FzfLua lsp_document_symbols<cr>", desc = "Document symbols" },
 		{ "<leader>lz", "<cmd>FzfLua lsp_live_workspace_symbols<cr>", desc = "Workspace Symbols" },
-		{ "<leader>lX", "<cmd>FzfLua lsp_code_actions<cr>", desc = "fzf finder" },
+
+    { "<leader>lc", "<cmd>FzfLua lsp_outgoing_calls<cr>", desc = "Outgoing Calls" },
+    { "<leader>lC", "<cmd>FzfLua lsp_incoming_calls<cr>", desc = "Incoming Calls" },
+
+    { "<leader>li", "<cmd>FzfLua lsp_implementations<cr>", desc = "Implementations" },
+    { "<leader>lr", "<cmd>FzfLua lsp_references<cr>", desc = "References" },
+    { "<leader>ld", "<cmd>FzfLua lsp_definitions<cr>", desc = "Definitions" },
+    { "<leader>lD", "<cmd>FzfLua lsp_definitions<cr>", desc = "Declarations" },
+    { "<leader>lt", "<cmd>FzfLua lsp_typedefs<cr>", desc = "Type Definitions" },
+
+		{ "<leader>la", "<cmd>FzfLua lsp_code_actions<cr>", desc = "Code Actions" },
+		{ "<leader>lx", "<cmd>FzfLua lsp_finder<cr>", desc = "Code Actions" },
+
 
 		{ "<leader>fm", "<cmd>FzfLua marks<cr>", desc = "Marks" },
 		{ "<leader>fQ", "<cmd>FzfLua quickfix<cr>", desc = "Quickfix List" },

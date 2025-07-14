@@ -4,7 +4,7 @@ local config = function()
 	-- configure lualine with modified theme
 	lualine.setup({
 		options = {
-			-- theme = "black-metal",
+			-- theme = "zenbones",
 			section_separators = { left = "", right = "" },
 			component_separators = { left = "", right = "" },
 			disabled_filetypes = {
