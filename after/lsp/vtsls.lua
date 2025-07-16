@@ -1,18 +1,14 @@
-local get_pkg_path = function(pkg, path, opts)
-	pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
-	local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
-	opts = opts or {}
-	opts.warn = opts.warn == nil and true or opts.warn
-	path = path or ""
-	local ret = root .. "/packages/" .. pkg .. "/" .. path
-	---@diagnostic disable-next-line: empty-block
-	if opts.warn and not vim.loop.fs_stat(ret) then
-		-- TODO: do something
-	end
-	return ret
-end
+local vue_ls_path = vim.fn.stdpath('data') .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
 
-local M = {
+local vue_plugin = {
+  name = '@vue/typescript-plugin',
+  location = vue_ls_path,
+  languages = { 'vue' },
+  configNamespace = 'typescript',
+  enableForWorkspaceTypeScriptVersions = true,
+}
+
+return {
 	on_attach = function(_, bufnr)
 		-- vim.keymap.del("n", "<leader>ld", { buffer = bufnr })
 		vim.keymap.set(
@@ -81,19 +77,9 @@ local M = {
 			-- For Vue:
 			tsserver = {
 				globalPlugins = {
-					{
-						name = "@vue/typescript-plugin",
-						-- TODO: :h lspconfig-setup-hook
-						-- location = "/home/naim/.npm-packages/lib/node_modules/@vue/language-server",
-						location = get_pkg_path("vue-language-server", "/node_modules/@vue/language-server"),
-						languages = { "vue" },
-						configNamespace = "typescript",
-						enableForWorkspaceTypeScriptVersions = true,
-					},
+          vue_plugin,
 				},
 			},
 		},
 	},
 }
-
-return M

@@ -43,6 +43,7 @@ local M = {
 					javascriptreact = { "prettierd" },
 					typescript = { "prettierd" },
 					typescriptreact = { "prettierd" },
+          vue = { "prettierd" },
 				},
 
 				format_on_save = function(bufnr)
