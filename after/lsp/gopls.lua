@@ -34,7 +34,7 @@ local M = {
       -- staticcheck = true 
 			directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
 			semanticTokens = true,
-      diagnosticsTrigger = "Save",
+      diagnosticsTrigger = "Edit",
 		},
 	},
 }

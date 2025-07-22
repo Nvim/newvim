@@ -70,9 +70,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "[d", function()
 			vim.diagnostic.jump({ count = -1 })
 		end)
-		vim.keymap.set("n", "lf", function()
+		vim.keymap.set("n", "<leader>lf", function()
 			vim.diagnostic.open_float()
 		end)
+
+    vim.keymap.del('n', 'K', { buffer = ev.buf })
+		vim.keymap.set("n", "K", function()
+			vim.lsp.buf.hover({
+        border = "rounded",
+        max_height = 40,
+        max_width = 120,
+      })
+		end, { buffer = true })
 
 		-- Conditionally enable codeLens:
 		-- if opts.codelens.enabled and vim.lsp.codelens then
