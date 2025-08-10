@@ -23,6 +23,13 @@ return {
 			desc = "Run File (Neotest)",
 		},
 		{
+			"<leader>td",
+			function()
+				require("neotest").run.run({ suite = false, strategy = "dap"})
+			end,
+			desc = "Debug Nearest (Neotest)",
+		},
+		{
 			"<leader>tT",
 			function()
 				require("neotest").run.run(vim.uv.cwd())
@@ -63,6 +70,13 @@ return {
 				require("neotest").output_panel.toggle()
 			end,
 			desc = "Toggle Output Panel (Neotest)",
+		},
+		{
+			"<leader>tc",
+			function()
+				require("neotest").output_panel.clear()
+			end,
+			desc = "Show Output (Neotest)",
 		},
 		{
 			"<leader>tS",
