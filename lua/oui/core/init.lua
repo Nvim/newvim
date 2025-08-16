@@ -74,7 +74,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.diagnostic.open_float()
 		end)
 
-    vim.keymap.del('n', 'K', { buffer = ev.buf })
+    -- vim.keymap.del('n', 'K', { buffer = ev.buf })
 		vim.keymap.set("n", "K", function()
 			vim.lsp.buf.hover({
         border = "rounded",

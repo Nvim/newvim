@@ -2,28 +2,42 @@ local M = {
 	"obsidian-nvim/obsidian.nvim",
 	version = "*",
 	lazy = true,
-	ft = "markdown",
+  event = {
+    "BufReadPre " .. vim.fn.expand "~" .. "/Documents/Sync/Obsidian/**/*.md",
+    "BufNewFile " .. vim.fn.expand "~" .. "/Documents/Sync/Obsidian/**/*.md",
+  },
+  cmd = {
+    "Obsidian",
+    "Obsidian open",
+    "Obsidian new",
+    "Obsidian new_from_template",
+    "Obsidian search",
+    "Obsidian quick_switch",
+  },
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-		-- "nvim-telescope/telescope.nvim",
 		"nvim-treesitter/nvim-treesitter",
 	},
 	keys = {
-		{ "<leader>nq", "<cmd>ObsidianOpen<CR>", desc = "Open in Obsidian App" },
-		{ "<leader>nn", "<cmd>ObsidianNew<CR>", desc = "New Note" },
-		{ "<leader>nt", "<cmd>ObsidianNewFromTemplate<CR>", desc = "New Note from Template" },
-		{ "<leader>nf", "<cmd>ObsidianQuickSwitch<CR>", desc = "Find note" },
-		{ "<leader>nl", "<cmd>ObsidianFollowLink<CR>", desc = "Follow Obsidian Link" },
-		{ "<leader>nL", "<cmd>ObsidianBackLinks<CR>", desc = "Get list of backlinks" },
-		{ "<leader>nT", "<cmd>ObsidianTemplate<CR>", desc = "Insert template" },
-		{ "<leader>nh", "<cmd>ObsidianLink<CR>", desc = "Link selection to a note" },
-		{ "<leader>nH", "<cmd>ObsidianLinkNew<CR>", desc = "Link selection to a new note" },
-		{ "<leader>np", "<cmd>ObsidianPasteImg<CR>", desc = "Paste image from clipboard" },
-		{ "<leader>nr", "<cmd>ObsidianRename --dry-run<CR>", desc = "Rename note" },
-		{ "<leader>nc", "<cmd>ObsidianToggleCheckbox<CR>", desc = "Toggle checkbox" },
-		{ "<leader>ns", "<cmd>ObsidianTOC<CR>", desc = "Table of contents" },
+		{ "<leader>no", "<cmd>Obsidian <CR>", desc = "Obsidian Menu" },
+		{ "<leader>nn", "<cmd>Obsidian new<CR>", desc = "New Note" },
+		{ "<leader>nt", "<cmd>Obsidian new_from_template<CR>", desc = "New Note from Template" },
+    { "<leader>nq", "<cmd>Obsidian open<CR>", desc = "Open in Obsidian App" },
+
+		{ "<leader>nf", "<cmd>Obsidian quick_switch<CR>", desc = "Find note" },
+    { "<leader>ng", "<cmd>Obsidian search<CR>", desc = "Grep notes"},
+    { "<leader>nL", "<cmd>Obsidian backlinks<CR>", desc = "Get list of backlinks" },
+
+		{ "<leader>nh", "<cmd>Obsidian link<CR>", desc = "Link selection to a note" },
+		{ "<leader>nH", "<cmd>Obsidian link_new<CR>", desc = "Link selection to a new note" },
+		{ "<leader>np", "<cmd>Obsidian paste_img<CR>", desc = "Paste image from clipboard" },
+    { "<leader>nT", "<cmd>Obsidian template<CR>", desc = "Insert template" },
+
+		{ "<leader>nr", "<cmd>Obsidian rename<CR>", desc = "Rename note" },
+    { "<leader>ns", "<cmd>Obsidian toc<CR>", desc = "Table of contents" },
 	},
 	opts = {
+    legacy_commands = false,
 		ui = { enable = false },
 		workspaces = {
 			{
@@ -40,29 +54,18 @@ local M = {
 			min_chars = 2,
 		},
 
-		mappings = {
-			-- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-			["gf"] = {
-				action = function()
-					return require("obsidian").util.gf_passthrough()
-				end,
-				opts = { noremap = false, expr = true, buffer = true },
-			},
-			-- Toggle check-boxes.
-			["<leader>ch"] = {
-				action = function()
-					return require("obsidian").util.toggle_checkbox()
-				end,
-				opts = { buffer = true },
-			},
-			-- Smart action depending on context, either follow link or toggle checkbox.
-			["<cr>"] = {
-				action = function()
-					return require("obsidian").util.smart_action()
-				end,
-				opts = { buffer = true, expr = true },
-			},
-		},
+    picker = {
+      name = "fzf-lua",
+    },
+
+    callbacks = {
+      -- enter_note = function(_, note)
+      --   vim.keymap.set("n", "<leader>ch", "<cmd>Obsidian toggle_checkbox<cr>", {
+      --     buffer = note.bufnr,
+      --     desc = "Toggle checkbox",
+      --   })
+      -- end,
+    },
 
 		-- Optional, for templates (see below).
 		templates = {
