@@ -1,13 +1,22 @@
 return {
 	"saghen/blink.cmp",
-	-- dependencies = { { "L3MON4D3/LuaSnip", version = "v2.*" }, "rafamadriz/friendly-snippets" },
-	dependencies = "rafamadriz/friendly-snippets",
+	dependencies = {
+    "rafamadriz/friendly-snippets",
+		{
+			"L3MON4D3/LuaSnip",
+			version = "v2.*",
+			config = function()
+				require("luasnip.loaders.from_vscode").lazy_load()
+			end,
+		},
+	},
 	event = "InsertEnter",
 
 	-- use a release tag to download pre-built binaries
 	version = "v1.*",
 
 	opts = {
+    snippets = { preset = 'luasnip' },
 		keymap = {
 			preset = "default",
 			["<C-k>"] = {},
@@ -40,7 +49,7 @@ return {
 			},
 
 			menu = {
-        border = "single",
+				border = "single",
 				scrollbar = false,
 				draw = {
 					treesitter = { "lsp" },
@@ -51,9 +60,9 @@ return {
 					},
 				},
 			},
-      documentation = {
-        window = { border = "single" },
-      },
+			documentation = {
+				window = { border = "single" },
+			},
 
 			ghost_text = {
 				enabled = false,
