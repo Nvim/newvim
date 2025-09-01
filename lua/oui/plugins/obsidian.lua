@@ -3,8 +3,8 @@ local M = {
 	version = "*",
 	lazy = true,
   event = {
-    "BufReadPre " .. vim.fn.expand "~" .. "/Documents/Sync/Obsidian/**/*.md",
-    "BufNewFile " .. vim.fn.expand "~" .. "/Documents/Sync/Obsidian/**/*.md",
+    "BufReadPre " .. vim.fn.expand "~" .. "/Documents/Nextcloud/Obsidian/**/*.md",
+    "BufNewFile " .. vim.fn.expand "~" .. "/Documents/Nextcloud/Obsidian/**/*.md",
   },
   cmd = {
     "Obsidian",
@@ -42,7 +42,7 @@ local M = {
 		workspaces = {
 			{
 				name = "Obsidian",
-				path = "~/Documents/Sync/Obsidian",
+				path = "~/Documents/Nextcloud/Obsidian",
 			},
 		},
 		notes_subdir = "inbox",
