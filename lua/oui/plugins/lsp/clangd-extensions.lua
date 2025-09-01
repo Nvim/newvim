@@ -1,6 +1,7 @@
 local M = {
 	"p00f/clangd_extensions.nvim",
-	lazy = true,
+	-- lazy = true,
+  ft = { "cpp", "c" },
 	config = function() end,
 	opts = {
 		inlay_hints = {

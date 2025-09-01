@@ -28,6 +28,10 @@ local M = {
     { "<leader>ng", "<cmd>Obsidian search<CR>", desc = "Grep notes"},
     { "<leader>nL", "<cmd>Obsidian backlinks<CR>", desc = "Get list of backlinks" },
 
+    { "<leader>nd", "<cmd>Obsidian today<CR>", desc = "Daily - Today" },
+    { "<leader>nD", "<cmd>Obsidian tomorrow<CR>", desc = "Daily - Tomorrow" },
+    { "<leader>ny", "<cmd>Obsidian yesterday<CR>", desc = "Daily - Yesterday" },
+
 		{ "<leader>nh", "<cmd>Obsidian link<CR>", desc = "Link selection to a note" },
 		{ "<leader>nH", "<cmd>Obsidian link_new<CR>", desc = "Link selection to a new note" },
 		{ "<leader>np", "<cmd>Obsidian paste_img<CR>", desc = "Paste image from clipboard" },
@@ -59,12 +63,21 @@ local M = {
     },
 
     callbacks = {
-      -- enter_note = function(_, note)
-      --   vim.keymap.set("n", "<leader>ch", "<cmd>Obsidian toggle_checkbox<cr>", {
-      --     buffer = note.bufnr,
-      --     desc = "Toggle checkbox",
-      --   })
-      -- end,
+      enter_note = function(_, note)
+        vim.o.cc = "80"
+      end,
+    },
+
+    daily_notes = {
+      -- Optional, if you keep daily notes in a separate directory.
+      folder = "notes/dailies",
+      -- Optional, if you want to change the date format for the ID of daily notes.
+      date_format = "%Y-%m-%d",
+      -- Optional, if you want to change the date format of the default alias of daily notes.
+      alias_format = "%A %B %-d, %Y",
+      default_tags = { "daily" },
+      template = "daily.md",
+      workdays_only = false,
     },
 
 		-- Optional, for templates (see below).
