@@ -19,10 +19,7 @@ return {
 		dap = false,
 		task_list = {
 			bindings = {
-				["<C-h>"] = false,
-				["<C-j>"] = false,
-				["<C-k>"] = false,
-				["<C-l>"] = false,
+        ["R"] = "<CMD>OverseerQuickAction restart<CR>"
 			},
 		},
 		form = {

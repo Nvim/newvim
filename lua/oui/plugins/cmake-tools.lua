@@ -1,4 +1,4 @@
-return {
+local M = {
 	"Civitasv/cmake-tools.nvim",
 	lazy = true,
 	init = function()
@@ -81,3 +81,4 @@ return {
 		{ "<leader>cf", ":CMakeShowTargetFiles<cr>", desc = "CMake Show Target Files" },
 	},
 }
+return {}
