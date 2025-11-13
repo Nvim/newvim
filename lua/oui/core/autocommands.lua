@@ -1,5 +1,5 @@
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-	pattern = { "*.vs", "*.fs", "*.vert", "*.frag", "*.shader", "*.glsl" },
+	pattern = { "*.vs", "*.fs", "*.vert", "*.frag", "*.shader", "*.glsl", "*.fsh", "*.vsh" },
 	callback = function()
 		vim.bo.filetype = "glsl"
 	end,
