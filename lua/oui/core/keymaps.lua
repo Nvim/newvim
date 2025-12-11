@@ -45,26 +45,10 @@ keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
--- switch between windows (replaced by tmux-navigator plugin)
--- keymap.set("n", "<C-h>", "<C-w>h", { desc = "Window left" })
--- keymap.set("n", "<C-l>", "<C-w>l", { desc = "Window right" })
--- keymap.set("n", "<C-j>", "<C-w>j", { desc = "Window down" })
--- keymap.set("n", "<C-k>", "<C-w>k", { desc = "Window up" })
-
--- find and replace:
-keymap.set("n", "<leader>rr", ":%s/<<C-r><C-w>//g<Left><Left>")
 keymap.set("n", "<right>", ":vertical resize +2<cr>")
 keymap.set("n", "<left>", ":vertical resize -2<cr>")
 keymap.set("n", "<down>", ":resize +2<cr>")
 keymap.set("n", "<up>", ":resize -2<cr>")
-
--- big dinguerie: bouge les lignes selectionnees avec shift+j et k
--- vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
--- vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
-
---ctrl+d et u pour half page jumps
--- vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Page down" })
--- vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Page down" })
 
 -- navigate in insert mode
 keymap.set("i", "<C-h>", "<Left>", { desc = "Move left" })
@@ -72,13 +56,6 @@ keymap.set("i", "<C-j>", "<Down>", { desc = "Move down" })
 keymap.set("i", "<C-l>", "<Right>", { desc = "Move right" })
 keymap.set("i", "<C-k>", "<Up>", { desc = "Move up" })
 
--- NeoTree --
-keymap.set("n", "<leader>E", "<cmd>Neotree toggle<cr>", { desc = "Toggle Neotree" })
-
---[[ Comment ]]
-keymap.set("n", "<leader>/", function()
-	require("Comment.api").toggle.linewise.current()
-end, { desc = "Comment line" })
 
 keymap.set(
 	"v",
