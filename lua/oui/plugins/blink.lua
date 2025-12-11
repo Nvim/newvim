@@ -15,13 +15,25 @@ return {
 	-- use a release tag to download pre-built binaries
 	version = "v1.*",
 
-	opts = {
-    snippets = { preset = 'luasnip' },
-		keymap = {
-			preset = "default",
-			["<C-k>"] = {},
-			["<C-s>"] = { "show_signature", "hide_signature", "fallback" },
-		},
+  opts = {
+    snippets = {
+      preset = 'luasnip',
+      active = function(filter)
+        local snippet = require "luasnip"
+        local blink = require "blink.cmp"
+        if snippet.in_snippet() and not blink.is_visible() then
+          return true
+        else
+          if not snippet.in_snippet() and vim.fn.mode() == "n" then snippet.unlink_current() end
+          return false
+        end
+      end,
+    },
+    keymap = {
+      preset = "default",
+      ["<C-k>"] = {},
+      ["<C-s>"] = { "show_signature", "hide_signature", "fallback" },
+    },
 
 		appearance = {
 			nerd_font_variant = "mono",
