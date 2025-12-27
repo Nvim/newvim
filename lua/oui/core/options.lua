@@ -5,8 +5,9 @@ if vim.g.neovide then
   vim.opt.linespace = 1
   vim.g.neovide_padding_top = 5
   vim.g.neovide_opacity = 1.0
-  vim.g.neovime_cursor_animation_length = 0.06
-  vim.g.neovime_cursor_trail_size = 0.3
+  vim.g.neovide_normal_opacity = 0.86
+  vim.g.neovide_cursor_animation_length = 0.06
+  vim.g.neovide_cursor_trail_size = 0.3
 end
 
 opt.exrc = true

@@ -5,8 +5,8 @@ return {
 	priority = 1000,
 	config = function()
 		-- vim.g.zenbones_darken_comments = 45
-		vim.g.zenbones_transparent_background = true
-		vim.g.zenwritten_transparent_background = true
+		vim.g.zenbones_transparent_background = false
+		vim.g.zenwritten_transparent_background = false
 
 		vim.g.zenwritten_lighten_cursor_line = 0
 		vim.g.zenbones_lighten_cursor_line = 0

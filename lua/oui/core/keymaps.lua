@@ -13,8 +13,9 @@ if vim.g.neovide then
 	keymap.set("v", "<D-c>", '"+y') -- Copy
 	keymap.set("n", "<D-v>", '"+P') -- Paste (normal)
 	keymap.set("v", "<D-v>", '"+P') -- Paste (visual)
-	keymap.set("i", "<D-v>", '<ESC>l"+Pli') -- Paste (visual)
+	keymap.set("i", "<D-v>", '<ESC>l"+Pli') -- Paste (insert)
 	keymap.set("c", "<D-v>", "<C-R>+") -- Paste (command)
+
 	-- Scale:
 	local change_scale_factor = function(delta)
 		vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
