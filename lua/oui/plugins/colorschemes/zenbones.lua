@@ -6,10 +6,8 @@ return {
 	config = function()
 		-- vim.g.zenbones_darken_comments = 45
 		vim.g.zenbones_transparent_background = false
-		vim.g.zenwritten_transparent_background = false
+    vim.g.zenbones_darkness = 'stark'
 
-		vim.g.zenwritten_lighten_cursor_line = 0
-		vim.g.zenbones_lighten_cursor_line = 0
 		vim.cmd.colorscheme("zenbones")
 
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })

@@ -15,7 +15,7 @@ return {
 				t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- Tags
 
         -- Functions:
-				f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- Function
+        f = ai.gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }),
 				u = ai.gen_spec.function_call(), -- u for "Usage"
 				U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
 

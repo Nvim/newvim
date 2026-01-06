@@ -11,70 +11,62 @@ if vim.g.neovide then
 end
 
 opt.exrc = true
--- for markdown:
--- opt.conceallevel = 2
---vim.g.filetype.plugin.on = 1
-
--- line numbers
-opt.relativenumber = true -- show relative line numbers
-opt.number = true -- shows absolute line number on cursor line (when relative number is on)
+opt.relativenumber = true
+opt.number = true
 vim.opt.nu = true
+opt.wrap = false
+opt.cursorline = true
+vim.opt.scrolloff = 8
+opt.termguicolors = true
+opt.background = "dark"
+opt.signcolumn = "yes"
+opt.backspace = "indent,eol,start"
+opt.clipboard:append("unnamedplus")
+opt.swapfile = false
+opt.virtualedit = "block"
 
 -- tabs & indentation
-opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
-opt.shiftwidth = 2 -- 2 spaces for indent width
-opt.expandtab = true -- expand tab to spaces
-opt.autoindent = true -- copy indent from current line when starting new one
+opt.tabstop = 2
+opt.shiftwidth = 2
+opt.expandtab = true
+opt.autoindent = true
 opt.smartindent = true
 
--- line wrapping
-opt.wrap = false -- disable line wrapping
-
 -- search settings
-opt.ignorecase = true -- ignore case when searching
-opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
-opt.hlsearch = false -- highlight search results
-opt.incsearch = true -- moves you to search result as you type
-opt.inccommand = "split" -- opens new window for '%s'
-
--- cursor line
-opt.cursorline = true -- highlight the current cursor line
-vim.opt.scrolloff = 8 -- prevent scrolling to  the last line
-
-opt.termguicolors = true
-opt.background = "dark" -- colorschemes that can be light or dark will be made dark
-opt.signcolumn = "yes" -- show sign column so that text doesn't shift
-
--- backspace
-opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
-
--- clipboard
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+opt.ignorecase = true
+opt.smartcase = true
+opt.hlsearch = false
+opt.incsearch = true
+opt.inccommand = "split"
 
 -- split windows
-opt.splitright = true -- split vertical window to the right
-opt.splitbelow = true -- split horizontal window to the bottom
-
--- turn off swapfile
-opt.swapfile = false
-
--- virtualedit for visual block --
-opt.virtualedit = "block"
+opt.splitright = true
+opt.splitbelow = true
 
 -- diagnostics symbols
 vim.diagnostic.config({
-	signs = {
-		text = {
-			[vim.diagnostic.severity.ERROR] = " ",
-			[vim.diagnostic.severity.WARN] = " ",
-			[vim.diagnostic.severity.INFO] = " ",
-			[vim.diagnostic.severity.HINT] = "󰌵",
-		},
-		texthl = {
-			[vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-			[vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-			[vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-			[vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-		},
-	},
+  virtual_text = {
+    current_line = true,
+  },
+  update_in_insert = false,
+  underline = true,
+  severity_sort = true,
+  float = {
+    border = "rounded",
+    source = "if_many",
+  },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = " ",
+      [vim.diagnostic.severity.WARN] = " ",
+      [vim.diagnostic.severity.INFO] = " ",
+      [vim.diagnostic.severity.HINT] = "󰌵",
+    },
+    texthl = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+    },
+  },
 })
