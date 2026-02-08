@@ -136,6 +136,7 @@ vim.g.editorconfig = true
 -- PLUGINS:
 vim.pack.add {
   "https://github.com/neovim/nvim-lspconfig",
+  "https://github.com/mason-org/mason.nvim",
   "https://github.com/christoomey/vim-tmux-navigator",
   "https://github.com/zenbones-theme/zenbones.nvim",
   "https://github.com/rktjmp/lush.nvim",
@@ -171,7 +172,6 @@ vim.lsp.enable({
   "clangd",
   "vtsls",
   "vue_ls",
-  "angularls",
   'eslint',
   "html",
   "cssls",
@@ -182,9 +182,14 @@ vim.lsp.enable({
   "tailwindcss",
   "ruff",
   "basedpyright",
-  "intelephense",
-  "metals"
+  "dockerls",
+  "neocmake",
+  -- "angularls",
+  -- "intelephense",
+  -- "metals"
 })
+
+require("mason").setup()
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)
