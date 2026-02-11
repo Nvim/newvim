@@ -159,6 +159,8 @@ vim.pack.add {
 -- CONFIGS: --
 -- -------- --
 
+require("plugins.dap")
+
 -- Colorscheme:
 vim.g.zenbones_transparent_background = false
 vim.g.zenbones_darkness = 'stark'
@@ -557,7 +559,6 @@ require("lualine").setup({
       	"dapui_stacks",
       	"dapui_watches",
       	"dapui_console",
-      	"dap-repl",
       },
     },
   },
