@@ -7,7 +7,7 @@ local map = vim.keymap.set
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
-map('n', '<leader>ss', '<cmd>source ~/.config/nvim12/init.lua<cr>')
+map('n', '<leader>ss', '<cmd>source ~/.config/nvim/init.lua<cr>')
 map('n', '<leader>v', 'gcc')
 map('v', '<leader>v', 'gc')
 map("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
@@ -17,6 +17,7 @@ map("n", "<down>", ":resize +2<cr>")
 map("n", "<up>", ":resize -2<cr>")
 map("n", "<leader>co", "gc")
 map("v", "<leader>/", "gcc")
+vim.keymap.set('t', '<C-b>', [[<C-\><C-n>]], { noremap = true })
 
 -- OPTS:
 local opt = vim.opt
@@ -148,7 +149,7 @@ vim.pack.add {
   { src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects", version = "main" },
   "https://github.com/Wansmer/treesj",
   "https://github.com/lewis6991/gitsigns.nvim",
-	"https://github.com/nvim-lualine/lualine.nvim",
+  "https://github.com/nvim-lualine/lualine.nvim",
   "https://github.com/nvim-mini/mini.nvim",
   "https://github.com/p00f/clangd_extensions.nvim",
   "https://github.com/obsidian-nvim/obsidian.nvim",
@@ -389,6 +390,7 @@ require("fzf-lua").setup({
     },
   },
 })
+require("fzf-lua").register_ui_select()
 map("n", "<leader>ff", "<cmd>FzfLua files<cr>")
 map("n", "<leader>fb", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>")
 map("n", "<leader>fo", "<cmd>FzfLua oldfiles<cr>")
@@ -554,11 +556,11 @@ require("lualine").setup({
     component_separators = { left = "", right = "" },
     disabled_filetypes = {
       statusline = {
-      	"dapui_scopes",
-      	"dapui_breakpoints",
-      	"dapui_stacks",
-      	"dapui_watches",
-      	"dapui_console",
+        "dapui_scopes",
+        "dapui_breakpoints",
+        "dapui_stacks",
+        "dapui_watches",
+        "dapui_console",
       },
     },
   },
