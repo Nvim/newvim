@@ -84,12 +84,29 @@ vim.diagnostic.config({
   },
 })
 
--- AUTOCMDS:
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-  pattern = { "*.vs", "*.fs", "*.vert", "*.frag", "*.shader", "*.glsl", "*.comp", "*.fsh", "*.vsh" },
-  callback = function()
-    vim.bo.filetype = "glsl"
-  end,
+-- FT:
+vim.filetype.add({
+  filename = {
+    ["docker-compose.yml"] = "yaml.docker-compose",
+    ["docker-compose.yaml"] = "yaml.docker-compose",
+    ["compose.yml"] = "yaml.docker-compose",
+    ["compose.yaml"] = "yaml.docker-compose",
+  },
+  pattern = {
+    ["docker%-compose.*%.ya?ml"] = "yaml.docker-compose",
+    ["compose.*%.ya?ml"] = "yaml.docker-compose",
+  },
+  extension = {
+    ["vs"] = "glsl",
+    ["fs"] = "glsl",
+    ["vert"] = "glsl",
+    ["frag"] = "glsl",
+    ["shader"] = "glsl",
+    ["glsl"] = "glsl",
+    ["comp"] = "glsl",
+    ["fsh"] = "glsl",
+    ["vsh"] = "glsl",
+  },
 })
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -153,7 +170,8 @@ vim.pack.add {
   "https://github.com/nvim-mini/mini.nvim",
   "https://github.com/p00f/clangd_extensions.nvim",
   "https://github.com/obsidian-nvim/obsidian.nvim",
-  "https://github.com/danymat/neogen"
+  "https://github.com/danymat/neogen",
+  { src = "https://github.com/mrcjkb/rustaceanvim", version = vim.version.range("^8") }
 }
 
 -- -----------
@@ -185,7 +203,7 @@ vim.lsp.enable({
   "tailwindcss",
   "ruff",
   "basedpyright",
-  "dockerls",
+  "docker_language_server",
   "neocmake",
   -- "angularls",
   -- "intelephense",
@@ -718,7 +736,7 @@ require("obsidian").setup({
     local suffix = ""
     if title ~= nil then
       -- If title is given, transform it into valid file name.
-      suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+      suffix = title:gsub(" ", "_"):gsub("[^A-Za-z0-9-]", ""):lower()
     else
       -- If title is nil, just add 4 random uppercase letters to the suffix.
       for _ = 1, 4 do
@@ -733,7 +751,7 @@ require("obsidian").setup({
   ---@return string|obsidian.Path The full path to the new note.
   note_path_func = function(spec)
     -- This is equivalent to the default behavior.
-    local path = spec.dir / tostring(spec.id)
+    local path = spec.dir / tostring(spec.title)
     return path:with_suffix(".md")
   end,
 })
