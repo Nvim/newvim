@@ -171,7 +171,6 @@ vim.pack.add {
   "https://github.com/p00f/clangd_extensions.nvim",
   "https://github.com/obsidian-nvim/obsidian.nvim",
   "https://github.com/danymat/neogen",
-  { src = "https://github.com/mrcjkb/rustaceanvim", version = vim.version.range("^8") }
 }
 
 -- -----------
@@ -205,6 +204,7 @@ vim.lsp.enable({
   "basedpyright",
   "docker_language_server",
   "neocmake",
+  "svelte",
   -- "angularls",
   -- "intelephense",
   -- "metals"
@@ -447,6 +447,9 @@ map("n", "<leader>fP", "<cmd>FzfLua man_pages<cr>")
 -- Treesitter:
 
 local ts = require('nvim-treesitter')
+ts.setup({
+  install_dir = vim.fn.stdpath("data") .. "/site/parser",
+})
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "*" },
@@ -485,6 +488,7 @@ ts.install {
   "json",
   "yaml",
   "toml",
+  "helm",
   "bash",
   "vim",
   "dockerfile",
