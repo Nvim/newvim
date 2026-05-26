@@ -171,7 +171,8 @@ vim.pack.add {
   "https://github.com/p00f/clangd_extensions.nvim",
   "https://github.com/obsidian-nvim/obsidian.nvim",
   "https://github.com/danymat/neogen",
-  "https://github.com/esmuellert/codediff.nvim"
+  "https://github.com/esmuellert/codediff.nvim",
+  'https://github.com/MeanderingProgrammer/render-markdown.nvim',
 }
 
 -- -----------
@@ -887,4 +888,20 @@ require("codediff").setup({
       diffget_current = "3do",              -- Get hunk from current (right/ours) buffer
     },
   },
+})
+
+-- render-markdown:
+require('render-markdown').setup({
+  completions = { lsp = { enabled = true } },
+  heading = {
+    sign = false,
+    position = 'inline',
+    width = 'block',
+    min_width = 80,
+  },
+  code = {
+    width = 'block',
+    min_width = 80,
+  },
+  dash = { width = 80 },
 })
