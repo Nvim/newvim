@@ -120,9 +120,9 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Highlight on yank
-vim.api.nvim_create_autocmd("TextYankPost", {
+vim.api.nvim_create_autocmd({"TextYankPost", "TextPutPost"}, {
   callback = function()
-    (vim.hl or vim.highlight).on_yank()
+    vim.hl.hl_op()
   end,
 })
 
@@ -495,6 +495,7 @@ ts.install {
   "typescript",
   "go",
   "glsl",
+  "slang",
   "vue",
   "html",
   "css",
@@ -749,9 +750,6 @@ require("obsidian").setup({
   ---@param title string|?
   ---@return string
   note_id_func = function(title)
-    -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
-    -- In this case a note with the title 'My new note' will be given an ID that looks
-    -- like '1657296016-my-new-note', and therefore the file name '1657296016-my-new-note.md'
     local suffix = ""
     if title ~= nil then
       -- If title is given, transform it into valid file name.
@@ -765,13 +763,10 @@ require("obsidian").setup({
     return tostring(os.date("%Y-%m-%d", os.time()) .. "_" .. suffix)
   end,
 
-  -- Optional, customize how note file names are generated given the ID, target directory, and title.
-  ---@param spec { id: string, dir: obsidian.Path, title: string|? }
-  ---@return string|obsidian.Path The full path to the new note.
   note_path_func = function(spec)
     -- This is equivalent to the default behavior.
-    local path = spec.dir / tostring(spec.title)
-    return path:with_suffix(".md")
+    local path = spec.dir / tostring(spec.id)
+    return path:with_suffix(".md", true)
   end,
 })
 map("n", "<leader>no", "<cmd>Obsidian <CR>")
