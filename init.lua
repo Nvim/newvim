@@ -156,7 +156,8 @@ vim.pack.add {
   "https://github.com/neovim/nvim-lspconfig",
   "https://github.com/mason-org/mason.nvim",
   "https://github.com/christoomey/vim-tmux-navigator",
-  "https://github.com/zenbones-theme/zenbones.nvim",
+  -- "https://github.com/zenbones-theme/zenbones.nvim",
+  "https://github.com/aktersnurra/no-clown-fiesta.nvim",
   "https://github.com/rktjmp/lush.nvim",
   { src = "https://github.com/saghen/blink.cmp",                            version = vim.version.range("^1") },
   "https://github.com/L3MON4D3/LuaSnip",
@@ -182,10 +183,26 @@ vim.pack.add {
 require("plugins.dap")
 
 -- Colorscheme:
-vim.g.zenbones_transparent_background = false
-vim.g.zenbones_darkness = 'stark'
-vim.cmd.colorscheme("zenbones")
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+-- vim.g.zenbones_transparent_background = false
+-- vim.g.zenbones_darkness = 'stark'
+-- vim.cmd.colorscheme("zenbones")
+-- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+require("no-clown-fiesta").setup({
+  -- theme = "dark", -- supported themes are: dark, dim, light
+  transparent = true, -- Enable this to disable the bg color
+  styles = {
+    -- You can set any of the style values specified for `:h nvim_set_hl`
+    -- comments = {},
+    -- functions = {},
+    -- keywords = {},
+    -- lsp = {},
+    -- match_paren = {},
+    -- type = {},
+    -- variables = {},
+  },
+})
+vim.cmd[[colorscheme no-clown-fiesta]]
+
 
 -- LSP setup:
 vim.lsp.enable({
