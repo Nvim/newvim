@@ -211,7 +211,7 @@ vim.lsp.enable({
   "clangd",
   "vtsls",
   "vue_ls",
-  'eslint',
+  "svelte",
   "html",
   "cssls",
   "bashls",
@@ -224,7 +224,6 @@ vim.lsp.enable({
   "basedpyright",
   "docker_language_server",
   "neocmake",
-  "svelte",
   -- "angularls",
   -- "intelephense",
   -- "metals"
@@ -445,6 +444,7 @@ map("n", "<leader>ff", "<cmd>FzfLua files<cr>")
 map("n", "<leader>fb", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>")
 map("n", "<leader>fo", "<cmd>FzfLua oldfiles<cr>")
 map("n", "<leader>fz", "<cmd>FzfLua lgrep_curbuf<cr>")
+map("n", "<leader>fw", "<cmd>FzfLua lgrep_curword<cr>")
 map("n", "<leader>fq", "<cmd>FzfLua lgrep_quickfix<cr>")
 map("n", "<leader>fg", "<cmd>FzfLua live_grep_native<cr>")
 map("n", "<leader>fG", "<cmd>FzfLua resume<cr>")
@@ -532,6 +532,7 @@ ts.install {
   "markdown_inline",
   "latex",
   "bibtex",
+  "svelte",
 }
 
 -- Textobjects:
@@ -728,13 +729,11 @@ require("mini.surround").setup({
 require("obsidian").setup({
   legacy_commands = false,
   ui = { enable = false },
-  workspaces = { { name = "Obsidian", path = "~/Documents/Nextcloud/Obsidian", }, },
+  workspaces = { { name = "Obsidian", path = "~/Sync/Obsidian", }, },
   notes_subdir = "inbox",
   new_notes_location = "notes_subdir",
   frontmatter = { enabled = false },
   completion = {
-    nvim_cmp = false,
-    blink = true,
     min_chars = 2,
   },
 
