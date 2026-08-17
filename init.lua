@@ -224,6 +224,7 @@ vim.lsp.enable({
   "basedpyright",
   "docker_language_server",
   "neocmake",
+  "zls",
   -- "angularls",
   -- "intelephense",
   -- "metals"
