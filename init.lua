@@ -225,6 +225,7 @@ vim.lsp.enable({
   "docker_language_server",
   "neocmake",
   "zls",
+  "gleam",
   -- "angularls",
   -- "intelephense",
   -- "metals"
@@ -357,7 +358,7 @@ require("conform").setup({
   formatters_by_ft = {
     c = { "clang_format" },
     cpp = { "clang_format" },
-    cmake = { "cmake_format" },
+    cmake = { "gersemi" },
     lua = { "stylua" },
     python = { "ruff_organize_imports", "ruff" },
     php = { "pint" },
@@ -512,6 +513,8 @@ ts.install {
   "javascript",
   "typescript",
   "go",
+  "zig",
+  "gleam",
   "glsl",
   "slang",
   "vue",
