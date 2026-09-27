@@ -226,6 +226,7 @@ vim.lsp.enable({
   "neocmake",
   "zls",
   "gleam",
+  "tinymist",
   -- "angularls",
   -- "intelephense",
   -- "metals"
@@ -373,6 +374,7 @@ require("conform").setup({
     yml = { "prettierd" },
     markdown = { "prettierd" },
     tex = { "latexindent" },
+    typst = { "typstyle" },
     css = { "prettierd" },
     sql = { "sqlfmt" },
     javascript = { "prettierd" },
