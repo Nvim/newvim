@@ -42,7 +42,7 @@ opt.shiftwidth = 2
 opt.expandtab = true
 opt.autoindent = true
 opt.smartindent = true
-opt.list = true
+opt.list = false
 opt.listchars = "tab: "
 
 -- search settings
